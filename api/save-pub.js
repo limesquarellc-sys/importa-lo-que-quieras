@@ -15,7 +15,6 @@ module.exports = async function handler(req, res) {
     try {
         const pub = req.body;
         
-        // Obtener publicaciones existentes
         let pubs = [];
         try {
             const { blobs } = await list({ prefix: 'publications.json' });
@@ -27,18 +26,15 @@ module.exports = async function handler(req, res) {
             pubs = [];
         }
         
-        // Agregar nueva publicación
         pubs.unshift({
             ...pub,
             timestamp: Date.now()
         });
         
-        // Mantener solo las últimas 15
         pubs = pubs.slice(0, 15);
         
-        // Guardar
         await put('publications.json', JSON.stringify(pubs), {
-            access: 'public',
+            access: 'private',
             addRandomSuffix: false
         });
         
