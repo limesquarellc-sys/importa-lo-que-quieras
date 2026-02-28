@@ -12,17 +12,35 @@
 <body>
     <header class="header">
         <div class="logo">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                <rect x="6" y="14" width="28" height="20" rx="3" stroke="url(#g1)" stroke-width="2"/>
-                <path d="M6 20L20 12L34 20" stroke="url(#g1)" stroke-width="2" stroke-linecap="round"/>
-                <path d="M20 4V18M20 18L14 12M20 18L26 12" stroke="url(#g1)" stroke-width="2" stroke-linecap="round"/>
-                <defs>
-                    <linearGradient id="g1" x1="0" y1="0" x2="40" y2="40">
-                        <stop stop-color="#3b82f6"/><stop offset="1" stop-color="#8b5cf6"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-            <span class="logo-text">Importar Ya</span>
+            <div class="logo-icon">
+                <div class="logo-glow"></div>
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#60a5fa"/>
+                            <stop offset="50%" stop-color="#a78bfa"/>
+                            <stop offset="100%" stop-color="#f472b6"/>
+                        </linearGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <g filter="url(#glow)">
+                        <rect x="8" y="18" width="32" height="22" rx="4" stroke="url(#logoGrad)" stroke-width="2.5" fill="none"/>
+                        <path d="M8 24L24 14L40 24" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M24 4V22" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M18 10L24 4L30 10" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="logo-text-container">
+                <span class="logo-text">Importar</span>
+                <span class="logo-text-accent">Ya</span>
+            </div>
         </div>
     </header>
 
