@@ -19,18 +19,41 @@ body {
 
 /* Nav */
 nav {
-    padding: 20px;
+    padding: 24px 20px;
     border-bottom: 1px solid var(--border);
 }
 
 .nav-content {
     max-width: 1000px;
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
 }
 
 .logo {
-    font-size: 20px;
-    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.logo-text {
+    font-size: 22px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #fff 0%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 /* Hero */
@@ -109,18 +132,36 @@ select {
 
 button[type="submit"] {
     width: 100%;
-    padding: 16px;
-    background: var(--accent);
+    padding: 18px;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     color: #fff;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
+    box-shadow: 
+        0 4px 0 #1e40af,
+        0 6px 20px rgba(59, 130, 246, 0.4);
+    position: relative;
+    top: 0;
 }
 
-button[type="submit"]:hover { background: #2563eb; }
+button[type="submit"]:hover { 
+    top: 2px;
+    box-shadow: 
+        0 2px 0 #1e40af,
+        0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+button[type="submit"]:active {
+    top: 4px;
+    box-shadow: 
+        0 0px 0 #1e40af,
+        0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
 button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* Loading */
@@ -327,6 +368,64 @@ h2 {
     text-align: center;
     color: var(--muted);
     padding: 40px;
+}
+
+/* Reputation */
+.reputation {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+}
+
+.rep-badge {
+    background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.rep-icon {
+    font-size: 36px;
+}
+
+.rep-info {
+    flex: 1;
+    min-width: 150px;
+}
+
+.rep-label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+.rep-status {
+    font-size: 20px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.rep-bar {
+    width: 100%;
+    height: 8px;
+    background: #222;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.rep-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    border-radius: 4px;
 }
 
 /* Footer */
