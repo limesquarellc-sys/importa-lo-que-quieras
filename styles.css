@@ -166,17 +166,17 @@ select {
 button[type="submit"] {
     width: 100%;
     padding: 18px 28px;
-    background: linear-gradient(180deg, #ffe14d 0%, #ffcc00 40%, #e6b800 100%);
+    background: linear-gradient(180deg, #4db2ec 0%, #3498db 50%, #2980b9 100%);
     border: none;
     border-radius: 12px;
-    color: #1a1a1a;
+    color: #fff;
     font-size: 17px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 
-        0 4px 0 #cc9900,
-        0 6px 20px rgba(255, 204, 0, 0.35);
+        0 4px 0 #1a5276,
+        0 6px 20px rgba(52, 152, 219, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -190,8 +190,8 @@ button[type="submit"] {
 button[type="submit"]:hover { 
     top: 2px;
     box-shadow: 
-        0 2px 0 #cc9900,
-        0 4px 12px rgba(255, 204, 0, 0.3);
+        0 2px 0 #1a5276,
+        0 4px 12px rgba(52, 152, 219, 0.35);
 }
 
 
@@ -199,8 +199,8 @@ button[type="submit"]:hover {
 button[type="submit"]:active {
     top: 4px;
     box-shadow: 
-        0 0px 0 #cc9900,
-        0 2px 8px rgba(255, 204, 0, 0.25);
+        0 0px 0 #1a5276,
+        0 2px 8px rgba(52, 152, 219, 0.25);
 }
 
 button:disabled { opacity: 0.5; cursor: not-allowed; top: 0 !important; }
