@@ -1,3 +1,107 @@
+const API_BASE = 'https://xxsdwlnvpbnhmjgniisy.supabase.co/functions/v1';
+const ML_ACCOUNT_ID = '33d8aef7-c56c-46c4-8911-b7c6d748ccc5';
+const MAX_PUBS = 15;
+
+// Guardar publicación en localStorage
+function savePub(pub) {
+    let pubs = JSON.parse(localStorage.getItem('recentPubs') || '[]');
+    pubs.unshift({
+        title: pub.title,
+        permalink: pub.permalink,
+        site: pub.site,
+        price: pub.price,
+        timestamp: Date.now()
+    });
+    // Mantener solo las últimas 15
+    pubs = pubs.slice(0, MAX_PUBS);
+    localStorage.setItem('recentPubs', JSON.stringify(pubs));
+    loadRecentPubs();
+}
+
+// Cargar publicaciones desde localStorage
+function loadRecentPubs() {
+    const container = document.getElementById('recentPubs');
+    if (!container) return;
+    
+    const flags = { MLA: '🇦🇷', MLM: '🇲🇽', MLB: '🇧🇷', MLC: '🇨🇱', MCO: '🇨🇴' };
+    const pubs = JSON.parse(localStorage.getItem('recentPubs') || '[]');
+    
+    if (pubs.length > 0) {
+        container.innerHTML = pubs.map(pub => {
+            const timeAgo = getTimeAgo(pub.timestamp);
+            return `
+                <a href="${pub.permalink}" target="_blank" class="pub-card">
+                    <span class="pub-flag">${flags[pub.site] || '🌎'}</span>
+                    <div class="pub-info">
+                        <div class="pub-title">${pub.title || 'Producto'}</div>
+                        <div class="pub-meta">
+                            <span class="pub-price">$${pub.price?.toLocaleString() || '—'}</span>
+                            <span> · ${timeAgo}</span>
+                        </div>
+                    </div>
+                </a>
+            `;
+        }).join('');
+    } else {
+        container.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">Las publicaciones aparecerán aquí</p>';
+    }
+}
+
+function getTimeAgo(timestamp) {
+    const seconds = Math.floor((Date.now() - timestamp) / 1000);
+    if (seconds < 60) return 'hace segundos';
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `hace ${minutes} min`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `hace ${hours}h`;
+    const days = Math.floor(hours / 24);
+    return `hace ${days}d`;
+}
+
+function extractAsin(input) {
+    if (/^[A-Z0-9]{10}$/i.test(input)) {
+        return { asin: input.toUpperCase() };
+    }
+    const asinMatch = input.match(/(?:dp|product|gp\/product)\/([A-Z0-9]{10})/i);
+    if (asinMatch) {
+        return { asin: asinMatch[1].toUpperCase() };
+    }
+    return { url: input };
+}
+
+async function pollJobStatus(jobId, loadingText) {
+    const maxAttempts = 60;
+    let attempts = 0;
+    
+    const messages = [
+        'Buscando producto en Amazon...',
+        'Extrayendo información...',
+        'Creando publicación en MercadoLibre...',
+        'Casi listo, unos segundos más...'
+    ];
+    
+    while (attempts < maxAttempts) {
+        const msgIndex = Math.min(Math.floor(attempts / 15), messages.length - 1);
+        if (loadingText) loadingText.textContent = messages[msgIndex];
+        
+        try {
+            const res = await fetch(`${API_BASE}/api-job-status?jobId=${jobId}`);
+            const data = await res.json();
+            
+            if (data.job && data.job.is_completed) {
+                return data;
+            }
+        } catch (e) {
+            console.log('Polling...', e);
+        }
+        
+        await new Promise(r => setTimeout(r, 3000));
+        attempts++;
+    }
+    
+    throw new Error('Timeout - el proceso tardó demasiado');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('publishForm');
     const productInput = document.getElementById('productInput');
@@ -9,52 +113,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = document.getElementById('submitBtn');
     const loadingText = document.getElementById('loadingText');
 
-    const API_BASE = 'https://xxsdwlnvpbnhmjgniisy.supabase.co/functions/v1';
-    const ML_ACCOUNT_ID = '33d8aef7-c56c-46c4-8911-b7c6d748ccc5';
-
-    function extractAsin(input) {
-        if (/^[A-Z0-9]{10}$/i.test(input)) {
-            return { asin: input.toUpperCase() };
-        }
-        const asinMatch = input.match(/(?:dp|product|gp\/product)\/([A-Z0-9]{10})/i);
-        if (asinMatch) {
-            return { asin: asinMatch[1].toUpperCase() };
-        }
-        return { url: input };
-    }
-
-    async function pollJobStatus(jobId, country) {
-        const maxAttempts = 60; // 3 minutos
-        let attempts = 0;
-        
-        const messages = [
-            'Buscando producto en Amazon...',
-            'Extrayendo información...',
-            'Creando publicación en MercadoLibre...',
-            'Casi listo, unos segundos más...'
-        ];
-        
-        while (attempts < maxAttempts) {
-            const msgIndex = Math.min(Math.floor(attempts / 15), messages.length - 1);
-            if (loadingText) loadingText.textContent = messages[msgIndex];
-            
-            try {
-                const res = await fetch(`${API_BASE}/api-job-status?jobId=${jobId}`);
-                const data = await res.json();
-                
-                if (data.job && data.job.is_completed) {
-                    return data;
-                }
-            } catch (e) {
-                console.log('Polling...', e);
-            }
-            
-            await new Promise(r => setTimeout(r, 3000));
-            attempts++;
-        }
-        
-        throw new Error('Timeout - el proceso tardó demasiado');
-    }
+    // Cargar publicaciones al iniciar
+    loadRecentPubs();
 
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -80,7 +140,6 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const productData = extractAsin(productValue);
             
-            // Iniciar job async
             const startRes = await fetch(`${API_BASE}/api-publish-async`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -99,22 +158,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const startData = await startRes.json();
             
             if (!startData || !startData.jobId) {
-                throw new Error('No se pudo iniciar el proceso - respuesta inválida del servidor');
+                throw new Error('No se pudo iniciar el proceso');
             }
             
-            // Polling hasta completar
-            const data = await pollJobStatus(startData.jobId, countryValue);
+            const data = await pollJobStatus(startData.jobId, loadingText);
             
-            // Verificar resultado
             if (!data || !data.items || data.items.length === 0) {
-                throw new Error('El servidor no devolvió resultados. Por favor, intentá de nuevo.');
+                throw new Error('El servidor no devolvió resultados');
             }
             
             const item = data.items[0];
-            
-            if (!item) {
-                throw new Error('Respuesta inválida del servidor');
-            }
             
             if (item.error) {
                 throw new Error(item.error);
@@ -122,10 +175,19 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const permalink = item.permalinks && item.permalinks[countryValue];
             const price = item.ml_prices && item.ml_prices[countryValue];
+            const title = item.title || productData.asin || 'Producto';
             
             if (!permalink) {
                 throw new Error(item.errors?.[countryValue] || 'No se pudo crear la publicación');
             }
+            
+            // Guardar en localStorage
+            savePub({
+                title: title,
+                permalink: permalink,
+                site: countryValue,
+                price: price
+            });
             
             loading.classList.add('hidden');
             result.classList.remove('hidden');
@@ -137,6 +199,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 resultPrice.classList.remove('hidden');
             }
             
+            // Limpiar form
+            productInput.value = '';
+            
         } catch (error) {
             loading.classList.add('hidden');
             alert('Error: ' + error.message);
@@ -146,40 +211,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-// Cargar publicaciones recientes
-async function loadRecentPubs() {
-    const container = document.getElementById('recentPubs');
-    if (!container) return;
-    
-    const flags = { MLA: '🇦🇷', MLM: '🇲🇽', MLB: '🇧🇷', MLC: '🇨🇱', MCO: '🇨🇴' };
-    
-    try {
-        const res = await fetch('https://xxsdwlnvpbnhmjgniisy.supabase.co/functions/v1/api-recent-publications?limit=10');
-        const data = await res.json();
-        
-        if (data.publications && data.publications.length > 0) {
-            container.innerHTML = data.publications.map(pub => `
-                <a href="${pub.permalink}" target="_blank" class="pub-card">
-                    <span class="pub-flag">${flags[pub.site] || '🌎'}</span>
-                    <div class="pub-info">
-                        <div class="pub-title">${pub.title || pub.asin}</div>
-                        <div class="pub-meta">
-                            <span class="pub-price">$${pub.price?.toLocaleString() || '—'}</span>
-                            <span> · hace ${pub.time_ago || 'poco'}</span>
-                        </div>
-                    </div>
-                </a>
-            `).join('');
-        } else {
-            container.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">Las publicaciones aparecerán aquí</p>';
-        }
-    } catch (e) {
-        container.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">Las publicaciones aparecerán aquí</p>';
-    }
-}
-
-// Cargar al iniciar
-loadRecentPubs();
-// Refrescar cada 30 segundos
-setInterval(loadRecentPubs, 30000);
