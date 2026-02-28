@@ -185,21 +185,7 @@ button[type="submit"] {
     top: 0;
 }
 
-button[type="submit"] .btn-text {
-    position: relative;
-    z-index: 1;
-}
 
-button[type="submit"] .btn-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    background: rgba(0,0,0,0.1);
-    border-radius: 50%;
-    transition: all 0.2s;
-}
 
 button[type="submit"]:hover { 
     top: 2px;
@@ -208,10 +194,7 @@ button[type="submit"]:hover {
         0 4px 12px rgba(255, 204, 0, 0.3);
 }
 
-button[type="submit"]:hover .btn-icon {
-    background: rgba(0,0,0,0.15);
-    transform: translateX(2px);
-}
+
 
 button[type="submit"]:active {
     top: 4px;
