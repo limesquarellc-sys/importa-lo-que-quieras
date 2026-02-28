@@ -7,48 +7,33 @@
     <meta name="description" content="Comprá cualquier producto de Amazon en MercadoLibre. Sin tarjeta internacional, en tu moneda local.">
     <meta name="theme-color" content="#0a0a0f">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="header">
         <div class="logo">
             <div class="logo-icon">
-                <div class="logo-glow"></div>
                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <defs>
                         <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#60a5fa"/>
-                            <stop offset="50%" stop-color="#a78bfa"/>
-                            <stop offset="100%" stop-color="#f472b6"/>
+                            <stop offset="0%" stop-color="#818cf8"/>
+                            <stop offset="100%" stop-color="#c084fc"/>
                         </linearGradient>
-                        <filter id="glow">
-                            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                            <feMerge>
-                                <feMergeNode in="coloredBlur"/>
-                                <feMergeNode in="SourceGraphic"/>
-                            </feMerge>
-                        </filter>
                     </defs>
-                    <g filter="url(#glow)">
-                        <rect x="8" y="18" width="32" height="22" rx="4" stroke="url(#logoGrad)" stroke-width="2.5" fill="none"/>
-                        <path d="M8 24L24 14L40 24" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M24 4V22" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round"/>
-                        <path d="M18 10L24 4L30 10" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </g>
+                    <rect x="8" y="18" width="32" height="22" rx="4" stroke="url(#logoGrad)" stroke-width="2.5" fill="none"/>
+                    <path d="M8 24L24 14L40 24" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M24 4V22M18 10L24 4L30 10" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
-            <div class="logo-text-container">
-                <span class="logo-text">Importar</span>
-                <span class="logo-text-accent">Ya</span>
-            </div>
+            <span class="logo-text">Importar <span class="accent">Ya</span></span>
         </div>
     </header>
 
     <main>
         <section class="hero">
-            <div class="badge">🚀 Rápido y Seguro</div>
             <h1>Comprá de Amazon<br><span class="gradient-text">en MercadoLibre</span></h1>
-            <p class="subtitle">Pegá el link, elegí tu país, y listo.<br>Sin tarjeta internacional.</p>
+            <p class="subtitle">Pegá el link, elegí tu país, y listo. Sin tarjeta internacional.</p>
             
             <div class="form-card">
                 <form id="publishForm">
@@ -84,66 +69,66 @@
             </div>
         </section>
 
-        <section class="steps-section">
+        <section class="how-it-works">
             <h2>¿Cómo funciona?</h2>
             <div class="steps-grid">
-                <div class="step">
-                    <div class="step-num">1</div>
-                    <div class="step-content">
-                        <h3>Pegá el link</h3>
-                        <p>Copiá el link de Amazon</p>
-                    </div>
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">🔗</div>
+                    <h3>Pegá el link</h3>
+                    <p>Copiá la URL del producto que querés de Amazon</p>
                 </div>
-                <div class="step">
-                    <div class="step-num">2</div>
-                    <div class="step-content">
-                        <h3>Elegí tu país</h3>
-                        <p>AR, MX, BR, CL o CO</p>
-                    </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">🌍</div>
+                    <h3>Elegí tu país</h3>
+                    <p>Seleccioná dónde querés que aparezca publicado</p>
                 </div>
-                <div class="step">
-                    <div class="step-num">3</div>
-                    <div class="step-content">
-                        <h3>Comprá en ML</h3>
-                        <p>Te damos el link</p>
-                    </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">🛒</div>
+                    <h3>Comprá tranquilo</h3>
+                    <p>Lo encontrás en MercadoLibre listo para comprar</p>
                 </div>
             </div>
         </section>
 
         <section class="benefits">
+            <h2>¿Por qué elegirnos?</h2>
             <div class="benefits-grid">
-                <div class="benefit">
+                <div class="benefit-card">
                     <div class="benefit-icon">💳</div>
-                    <h4>Sin tarjeta internacional</h4>
+                    <h3>Sin tarjeta internacional</h3>
+                    <p>No necesitás tarjeta de crédito para comprar en Amazon</p>
                 </div>
-                <div class="benefit">
+                <div class="benefit-card">
                     <div class="benefit-icon">💰</div>
-                    <h4>Pagás en tu moneda</h4>
+                    <h3>Tu moneda local</h3>
+                    <p>Pagás en pesos, reales, o la moneda de tu país</p>
                 </div>
-                <div class="benefit">
-                    <div class="benefit-icon">🚚</div>
-                    <h4>Envío a tu puerta</h4>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📦</div>
+                    <h3>Envío a tu puerta</h3>
+                    <p>Lo recibís directo en tu domicilio, sin complicaciones</p>
                 </div>
-                <div class="benefit">
-                    <div class="benefit-icon">🛡️</div>
-                    <h4>Garantía ML</h4>
+                <div class="benefit-card">
+                    <div class="benefit-icon">✅</div>
+                    <h3>Garantía MercadoLibre</h3>
+                    <p>Protección de compra y devolución garantizada</p>
                 </div>
             </div>
         </section>
 
         <section class="recent">
             <h2>Últimas publicaciones</h2>
-            <div id="recentPubs">
-                <div class="pub-skeleton"></div>
-                <div class="pub-skeleton"></div>
-                <div class="pub-skeleton"></div>
+            <div id="recentPubs" class="pubs-container">
+                <p class="empty-state">Las publicaciones aparecerán aquí</p>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>Powered by <strong>GlobalMelios</strong></p>
+        <p>Powered by <span class="accent">GlobalMelios</span></p>
     </footer>
 
     <script src="script.js"></script>
