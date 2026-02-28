@@ -1,49 +1,52 @@
 const API_BASE = 'https://xxsdwlnvpbnhmjgniisy.supabase.co/functions/v1';
 const ML_ACCOUNT_ID = '33d8aef7-c56c-46c4-8911-b7c6d748ccc5';
-const MAX_PUBS = 15;
 
-// Guardar publicación en localStorage
-function savePub(pub) {
-    let pubs = JSON.parse(localStorage.getItem('recentPubs') || '[]');
-    pubs.unshift({
-        title: pub.title,
-        permalink: pub.permalink,
-        site: pub.site,
-        price: pub.price,
-        timestamp: Date.now()
-    });
-    // Mantener solo las últimas 15
-    pubs = pubs.slice(0, MAX_PUBS);
-    localStorage.setItem('recentPubs', JSON.stringify(pubs));
-    loadRecentPubs();
+// Guardar publicación en servidor
+async function savePub(pub) {
+    try {
+        await fetch('/api/save-pub', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(pub)
+        });
+        loadRecentPubs();
+    } catch (e) {
+        console.error('Error saving pub:', e);
+    }
 }
 
-// Cargar publicaciones desde localStorage
-function loadRecentPubs() {
+// Cargar publicaciones desde servidor
+async function loadRecentPubs() {
     const container = document.getElementById('recentPubs');
     if (!container) return;
     
     const flags = { MLA: '🇦🇷', MLM: '🇲🇽', MLB: '🇧🇷', MLC: '🇨🇱', MCO: '🇨🇴' };
-    const pubs = JSON.parse(localStorage.getItem('recentPubs') || '[]');
     
-    if (pubs.length > 0) {
-        container.innerHTML = pubs.map(pub => {
-            const timeAgo = getTimeAgo(pub.timestamp);
-            return `
-                <a href="${pub.permalink}" target="_blank" class="pub-card">
-                    <span class="pub-flag">${flags[pub.site] || '🌎'}</span>
-                    <div class="pub-info">
-                        <div class="pub-title">${pub.title || 'Producto'}</div>
-                        <div class="pub-meta">
-                            <span class="pub-price">$${pub.price?.toLocaleString() || '—'}</span>
-                            <span> · ${timeAgo}</span>
+    try {
+        const res = await fetch('/api/get-pubs');
+        const pubs = await res.json();
+        
+        if (pubs.length > 0) {
+            container.innerHTML = pubs.map(pub => {
+                const timeAgo = getTimeAgo(pub.timestamp);
+                return `
+                    <a href="${pub.permalink}" target="_blank" class="pub-card">
+                        <span class="pub-flag">${flags[pub.site] || '🌎'}</span>
+                        <div class="pub-info">
+                            <div class="pub-title">${pub.title || 'Producto'}</div>
+                            <div class="pub-meta">
+                                <span class="pub-price">$${pub.price?.toLocaleString() || '—'}</span>
+                                <span> · ${timeAgo}</span>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            `;
-        }).join('');
-    } else {
-        container.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">Las publicaciones aparecerán aquí</p>';
+                    </a>
+                `;
+            }).join('');
+        } else {
+            container.innerHTML = '<p style="text-align:center;color:var(--muted);grid-column:1/-1;padding:2rem;">Las publicaciones aparecerán aquí</p>';
+        }
+    } catch (e) {
+        container.innerHTML = '<p style="text-align:center;color:var(--muted);grid-column:1/-1;padding:2rem;">Las publicaciones aparecerán aquí</p>';
     }
 }
 
@@ -181,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error(item.errors?.[countryValue] || 'No se pudo crear la publicación');
             }
             
-            // Guardar en localStorage
+            // Guardar en servidor
             savePub({
                 title: title,
                 permalink: permalink,
