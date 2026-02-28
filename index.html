@@ -3,52 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ImportarYa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>ImportarYa - Comprá de Amazon en MercadoLibre</title>
+    <meta name="description" content="Importá cualquier producto de Amazon y compralo en MercadoLibre. Sin tarjeta internacional, pagá en tu moneda.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📦 ImportarYa</h1>
-            <p>Comprá de Amazon en MercadoLibre</p>
-        </header>
+    <nav>
+        <div class="nav-content">
+            <div class="logo">📦 ImportarYa</div>
+        </div>
+    </nav>
 
-        <main>
-            <form id="publishForm">
-                <input type="text" id="productInput" placeholder="Pegá el link de Amazon..." required>
-                <select id="countrySelect" required>
-                    <option value="">Elegí país</option>
-                    <option value="MLA">🇦🇷 Argentina</option>
-                    <option value="MLM">🇲🇽 México</option>
-                    <option value="MLB">🇧🇷 Brasil</option>
-                    <option value="MLC">🇨🇱 Chile</option>
-                    <option value="MCO">🇨🇴 Colombia</option>
-                </select>
-                <button type="submit" id="submitBtn">Publicar →</button>
-            </form>
+    <main>
+        <section class="hero">
+            <h1>Comprá cualquier producto de <span>Amazon</span> en <span>MercadoLibre</span></h1>
+            <p class="subtitle">Sin tarjeta internacional. Pagá en pesos. Envío a tu casa.</p>
 
-            <div id="loading" class="hidden">
-                <div class="spinner"></div>
-                <p id="loadingText">Procesando...</p>
+            <div class="form-card">
+                <form id="publishForm">
+                    <div class="input-group">
+                        <label>Link del producto</label>
+                        <input type="text" id="productInput" placeholder="https://amazon.com/dp/..." required>
+                    </div>
+                    <div class="input-group">
+                        <label>Tu país</label>
+                        <select id="countrySelect" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="MLA">🇦🇷 Argentina</option>
+                            <option value="MLM">🇲🇽 México</option>
+                            <option value="MLB">🇧🇷 Brasil</option>
+                            <option value="MLC">🇨🇱 Chile</option>
+                            <option value="MCO">🇨🇴 Colombia</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="submitBtn">Publicar en MercadoLibre</button>
+                </form>
+
+                <div id="loading" class="hidden">
+                    <div class="loader"></div>
+                    <p id="loadingText">Buscando producto...</p>
+                </div>
+
+                <div id="result" class="hidden">
+                    <div class="success-badge">✓ Publicación creada</div>
+                    <a id="resultLink" href="#" target="_blank" class="result-btn">Ver en MercadoLibre</a>
+                    <p id="resultPrice" class="result-price"></p>
+                    <button class="btn-again" onclick="location.reload()">Publicar otro producto</button>
+                </div>
             </div>
 
-            <div id="result" class="hidden">
-                <p class="success">✓ ¡Listo!</p>
-                <a id="resultLink" href="#" target="_blank">Ver en MercadoLibre →</a>
-                <p id="resultPrice"></p>
+            <div class="trust-row">
+                <span>🔒 Pago seguro</span>
+                <span>📦 Envío garantizado</span>
+                <span>✓ Garantía ML</span>
             </div>
-        </main>
-
-        <section id="recentSection">
-            <h2>Recientes</h2>
-            <div id="recentPubs"></div>
         </section>
 
-        <footer>
-            <p>Powered by GlobalMelios</p>
-        </footer>
-    </div>
+        <section class="how">
+            <h2>¿Cómo funciona?</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h3>Encontrá el producto</h3>
+                    <p>Buscá en Amazon el producto que querés y copiá el link</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h3>Pegá el link acá</h3>
+                    <p>Elegí tu país y hacé click en publicar</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h3>Comprá en MercadoLibre</h3>
+                    <p>Te damos el link para que compres con todos los medios de pago</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="benefits">
+            <h2>¿Por qué usar ImportarYa?</h2>
+            <div class="benefits-grid">
+                <div class="benefit">
+                    <span class="benefit-icon">💳</span>
+                    <h3>Sin tarjeta internacional</h3>
+                    <p>Pagá con tarjeta local, efectivo, transferencia o MercadoPago</p>
+                </div>
+                <div class="benefit">
+                    <span class="benefit-icon">💵</span>
+                    <h3>Precio en tu moneda</h3>
+                    <p>Sabés exactamente cuánto vas a pagar, sin sorpresas</p>
+                </div>
+                <div class="benefit">
+                    <span class="benefit-icon">🚚</span>
+                    <h3>Envío a tu casa</h3>
+                    <p>Lo recibís donde quieras con la logística de MercadoLibre</p>
+                </div>
+                <div class="benefit">
+                    <span class="benefit-icon">🛡️</span>
+                    <h3>Compra protegida</h3>
+                    <p>Garantía y protección de MercadoLibre en cada compra</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="recent">
+            <h2>Últimas publicaciones</h2>
+            <div id="recentPubs"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>ImportarYa © 2026 · Powered by <strong>GlobalMelios</strong></p>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>

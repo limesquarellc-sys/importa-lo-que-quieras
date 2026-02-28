@@ -6,7 +6,9 @@ const loading = document.getElementById('loading');
 const result = document.getElementById('result');
 
 function show(el) {
-    [form, loading, result].forEach(e => e.classList.add('hidden'));
+    form.classList.add('hidden');
+    loading.classList.add('hidden');
+    result.classList.add('hidden');
     el.classList.remove('hidden');
 }
 
@@ -16,7 +18,7 @@ async function loadRecent() {
         const r = await fetch('/api/get-pubs');
         const pubs = await r.json();
         if (pubs?.length) {
-            c.innerHTML = pubs.slice(0,5).map(p => `
+            c.innerHTML = pubs.slice(0,6).map(p => `
                 <a href="${p.permalink}" target="_blank" class="pub">
                     <span class="pub-flag">${{MLA:'🇦🇷',MLM:'🇲🇽',MLB:'🇧🇷',MLC:'🇨🇱',MCO:'🇨🇴'}[p.site]||'🌎'}</span>
                     <div class="pub-info">
@@ -26,16 +28,16 @@ async function loadRecent() {
                 </a>
             `).join('');
         } else {
-            c.innerHTML = '<p class="empty">Sin publicaciones aún</p>';
+            c.innerHTML = '<p class="empty">Las publicaciones aparecerán aquí</p>';
         }
     } catch(e) {
-        c.innerHTML = '<p class="empty">Sin publicaciones aún</p>';
+        c.innerHTML = '<p class="empty">Las publicaciones aparecerán aquí</p>';
     }
 }
 
 async function poll(jobId) {
     const txt = document.getElementById('loadingText');
-    const msgs = ['Buscando...', 'Procesando...', 'Creando...', 'Casi listo...'];
+    const msgs = ['Buscando producto...', 'Extrayendo información...', 'Creando publicación...', 'Casi listo...'];
     for (let i = 0; i < 60; i++) {
         txt.textContent = msgs[Math.min(Math.floor(i/15), 3)];
         try {
@@ -45,7 +47,7 @@ async function poll(jobId) {
         } catch(e) {}
         await new Promise(r => setTimeout(r, 3000));
     }
-    throw new Error('Timeout');
+    throw new Error('Timeout - intentá de nuevo');
 }
 
 form.addEventListener('submit', async e => {
@@ -74,7 +76,7 @@ form.addEventListener('submit', async e => {
 
         const data = await poll(start.jobId);
         const item = data.items?.[0];
-        if (!item?.permalinks?.[country]) throw new Error(item?.error || 'Error');
+        if (!item?.permalinks?.[country]) throw new Error(item?.error || 'No se pudo crear');
 
         await fetch('/api/save-pub', {
             method: 'POST',
@@ -88,8 +90,8 @@ form.addEventListener('submit', async e => {
         });
 
         document.getElementById('resultLink').href = item.permalinks[country];
-        document.getElementById('resultPrice').textContent = item.ml_prices?.[country] ? 
-            `$${item.ml_prices[country].toLocaleString()}` : '';
+        const price = item.ml_prices?.[country];
+        document.getElementById('resultPrice').textContent = price ? `Precio: $${price.toLocaleString()}` : '';
         
         show(result);
         loadRecent();
