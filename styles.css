@@ -535,17 +535,6 @@ body {
     filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.4));
 }
 
-.logo-text {
-    font-size: 2rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: -0.02em;
-}
-
-@media (max-width: 480px) {
     .logo-text {
         font-size: 1.5rem;
     }
@@ -636,5 +625,31 @@ body {
 @media (max-width: 768px) {
     .pubs-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Logo Text - Fixed */
+.logo-text {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+    letter-spacing: -0.02em;
+}
+
+.logo-text span {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@media (max-width: 480px) {
+    .logo-text {
+        font-size: 1.8rem;
+    }
+    .logo svg {
+        width: 45px;
+        height: 45px;
     }
 }
