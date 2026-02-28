@@ -521,3 +521,36 @@ body {
     outline: 2px solid var(--color-accent-blue);
     outline-offset: 2px;
 }
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.logo svg {
+    filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.4));
+}
+
+.logo-text {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+}
+
+@media (max-width: 480px) {
+    .logo-text {
+        font-size: 1.5rem;
+    }
+    .logo svg {
+        width: 45px;
+        height: 45px;
+    }
+}

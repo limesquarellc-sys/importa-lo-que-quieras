@@ -4,20 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Importá lo que quieras - Amazon a MercadoLibre</title>
-    <meta name="description" content="Comprá cualquier producto de Amazon en MercadoLibre. Sin tarjeta internacional, en tu moneda local. Argentina, México, Brasil, Chile, Colombia.">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Importá lo que quieras - Amazon a MercadoLibre">
-    <meta property="og:description" content="Comprá cualquier producto de Amazon en MercadoLibre. Sin tarjeta internacional, en tu moneda local.">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Importá lo que quieras - Amazon a MercadoLibre">
-    <meta name="twitter:description" content="Comprá cualquier producto de Amazon en MercadoLibre. Sin tarjeta internacional, en tu moneda local.">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -25,19 +11,6 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-        <div class="logo">
-            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="30" cy="30" r="28" stroke="url(#logoGrad)" stroke-width="3" fill="none"/>
-                <path d="M20 30L27 37L40 24" stroke="url(#logoGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                <defs>
-                    <linearGradient id="logoGrad" x1="0" y1="0" x2="60" y2="60">
-                        <stop offset="0%" stop-color="#3b82f6"/>
-                        <stop offset="100%" stop-color="#8b5cf6"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-            <span class="logo-text">ImportaYa</span>
-        </div>
                 <h1 class="hero-title">Comprá cualquier producto de Amazon</h1>
                 <p class="hero-subtitle">Lo traemos a MercadoLibre en minutos</p>
                 
