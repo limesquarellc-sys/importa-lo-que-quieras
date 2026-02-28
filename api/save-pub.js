@@ -1,31 +1,33 @@
-import { put, list } from '@vercel/blob';
+const { put, list } = require('@vercel/blob');
 
-export const config = { runtime: 'edge' };
-
-export default async function handler(request) {
-    if (request.method !== 'POST') {
-        return new Response(JSON.stringify({ error: 'Method not allowed' }), { 
-            status: 405,
-            headers: { 'Content-Type': 'application/json' }
-        });
+module.exports = async function handler(req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Content-Type', 'application/json');
+    
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
     }
-
+    
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
+    }
+    
     try {
-        const pub = await request.json();
+        const pub = req.body;
         
         // Obtener publicaciones existentes
         let pubs = [];
         try {
             const { blobs } = await list({ prefix: 'publications.json' });
             if (blobs.length > 0) {
-                const res = await fetch(blobs[0].url);
-                pubs = await res.json();
+                const response = await fetch(blobs[0].downloadUrl);
+                pubs = await response.json();
             }
         } catch (e) {
             pubs = [];
         }
         
-        // Agregar nueva publicación al inicio
+        // Agregar nueva publicación
         pubs.unshift({
             ...pub,
             timestamp: Date.now()
@@ -40,16 +42,9 @@ export default async function handler(request) {
             addRandomSuffix: false
         });
         
-        return new Response(JSON.stringify({ success: true, count: pubs.length }), {
-            headers: { 
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            }
-        });
+        return res.status(200).json({ success: true, count: pubs.length });
     } catch (error) {
-        return new Response(JSON.stringify({ error: error.message }), { 
-            status: 500,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        console.error('Error:', error);
+        return res.status(500).json({ error: error.message });
     }
-}
+};
