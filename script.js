@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = document.getElementById('submitBtn');
     const loadingText = document.getElementById('loadingText');
 
-    const API_URL = 'https://xxsdwlnvpbnhmjgniisy.supabase.co/functions/v1/api-publish';
+    const API_BASE = 'https://xxsdwlnvpbnhmjgniisy.supabase.co/functions/v1';
     const ML_ACCOUNT_ID = '33d8aef7-c56c-46c4-8911-b7c6d748ccc5';
 
     function extractAsin(input) {
@@ -21,6 +21,39 @@ document.addEventListener('DOMContentLoaded', function() {
             return { asin: asinMatch[1].toUpperCase() };
         }
         return { url: input };
+    }
+
+    async function pollJobStatus(jobId, country) {
+        const maxAttempts = 60; // 3 minutos
+        let attempts = 0;
+        
+        const messages = [
+            'Buscando producto en Amazon...',
+            'Extrayendo información...',
+            'Creando publicación en MercadoLibre...',
+            'Casi listo, unos segundos más...'
+        ];
+        
+        while (attempts < maxAttempts) {
+            const msgIndex = Math.min(Math.floor(attempts / 15), messages.length - 1);
+            if (loadingText) loadingText.textContent = messages[msgIndex];
+            
+            try {
+                const res = await fetch(`${API_BASE}/api-job-status?jobId=${jobId}`);
+                const data = await res.json();
+                
+                if (data.job && data.job.is_completed) {
+                    return data;
+                }
+            } catch (e) {
+                console.log('Polling...', e);
+            }
+            
+            await new Promise(r => setTimeout(r, 3000));
+            attempts++;
+        }
+        
+        throw new Error('Timeout - el proceso tardó demasiado');
     }
 
     form.addEventListener('submit', async function(e) {
@@ -42,81 +75,62 @@ document.addEventListener('DOMContentLoaded', function() {
         result.classList.add('hidden');
         loading.classList.remove('hidden');
         submitBtn.disabled = true;
-        
-        // Actualizar mensaje de loading
-        let dots = 0;
-        const messages = [
-            'Buscando producto en Amazon...',
-            'Extrayendo información...',
-            'Creando publicación en MercadoLibre...',
-            'Casi listo, solo unos segundos más...'
-        ];
-        let msgIndex = 0;
-        
-        const loadingInterval = setInterval(() => {
-            dots = (dots + 1) % 4;
-            if (loadingText) {
-                loadingText.textContent = messages[msgIndex] + '.'.repeat(dots);
-            }
-        }, 500);
-        
-        const messageInterval = setInterval(() => {
-            msgIndex = Math.min(msgIndex + 1, messages.length - 1);
-        }, 20000);
+        if (loadingText) loadingText.textContent = 'Iniciando...';
         
         try {
             const productData = extractAsin(productValue);
             
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 min timeout
-            
-            const response = await fetch(API_URL, {
+            // Iniciar job async
+            const startRes = await fetch(`${API_BASE}/api-publish-async`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     ...productData,
                     mlAccountId: ML_ACCOUNT_ID,
                     sites: [countryValue]
-                }),
-                signal: controller.signal
+                })
             });
             
-            clearTimeout(timeoutId);
-            clearInterval(loadingInterval);
-            clearInterval(messageInterval);
+            const startData = await startRes.json();
             
-            const data = await response.json();
-            
-            if (!response.ok || !data.success) {
-                throw new Error(data.error || 'No se pudo crear la publicación');
+            if (!startRes.ok || !startData.jobId) {
+                throw new Error(startData.error || 'Error al iniciar el proceso');
             }
             
-            const countryResult = data.results[countryValue];
+            // Polling hasta completar
+            const data = await pollJobStatus(startData.jobId, countryValue);
             
-            if (!countryResult || !countryResult.success) {
-                throw new Error(countryResult?.error || 'Error en la publicación');
+            // Verificar resultado
+            if (!data.items || data.items.length === 0) {
+                throw new Error('No se recibió resultado');
+            }
+            
+            const item = data.items[0];
+            
+            if (item.error) {
+                throw new Error(item.error);
+            }
+            
+            const permalink = item.permalinks && item.permalinks[countryValue];
+            const price = item.ml_prices && item.ml_prices[countryValue];
+            
+            if (!permalink) {
+                throw new Error(item.errors?.[countryValue] || 'No se pudo crear la publicación');
             }
             
             loading.classList.add('hidden');
             result.classList.remove('hidden');
-            resultLink.href = countryResult.permalink;
-            resultLink.textContent = countryResult.permalink;
+            resultLink.href = permalink;
+            resultLink.textContent = permalink;
             
-            if (resultPrice && countryResult.ml_price) {
-                resultPrice.textContent = 'Precio: $' + countryResult.ml_price.toLocaleString();
+            if (resultPrice && price) {
+                resultPrice.textContent = 'Precio: $' + price.toLocaleString();
                 resultPrice.classList.remove('hidden');
             }
             
         } catch (error) {
-            clearInterval(loadingInterval);
-            clearInterval(messageInterval);
             loading.classList.add('hidden');
-            
-            if (error.name === 'AbortError') {
-                alert('La publicación está tardando demasiado. Por favor intentá de nuevo en unos minutos.');
-            } else {
-                alert('Error: ' + error.message);
-            }
+            alert('Error: ' + error.message);
             console.error('Error:', error);
         } finally {
             submitBtn.disabled = false;
