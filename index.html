@@ -3,41 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Importá lo que quieras</title>
+    <title>Importá lo que quieras - Amazon a MercadoLibre</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Importá lo que quieras</h1>
-        <p class="subtitle">Publicá productos de Amazon en MercadoLibre en 1 click</p>
-        
-        <form id="publishForm">
-            <input type="text" id="productInput" placeholder="Link de Amazon o ASIN (ej: B09RWWV2SK)" required>
-            
-            <select id="countrySelect" required>
-                <option value="">Seleccioná un país</option>
-                <option value="MLA">Argentina</option>
-                <option value="MLM">México</option>
-                <option value="MLB">Brasil</option>
-                <option value="MLC">Chile</option>
-                <option value="MCO">Colombia</option>
-            </select>
-            
-            <button type="submit" id="submitBtn">PUBLICAR</button>
-        </form>
-        
-        <div id="loading" class="loading hidden">
-            <div class="spinner"></div>
-            <p id="loadingText">Procesando... esto puede tardar hasta 2 minutos</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Comprá cualquier producto de Amazon</h1>
+                <p class="hero-subtitle">Lo traemos a MercadoLibre en minutos</p>
+                
+                <form id="publishForm" class="hero-form">
+                    <input 
+                        type="text" 
+                        id="productInput" 
+                        placeholder="Pegá el link de Amazon o ASIN (ej: B09RWWV2SK)" 
+                        required
+                    >
+                    
+                    <select id="countrySelect" required>
+                        <option value="">Seleccioná tu país</option>
+                        <option value="MLA">🇦🇷 Argentina</option>
+                        <option value="MLM">🇲🇽 México</option>
+                        <option value="MLB">🇧🇷 Brasil</option>
+                        <option value="MLC">🇨🇱 Chile</option>
+                        <option value="MCO">🇨🇴 Colombia</option>
+                    </select>
+                    
+                    <button type="submit" id="submitBtn" class="btn-primary">
+                        Publicar en MercadoLibre
+                    </button>
+                </form>
+                
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p id="loadingText">Procesando tu solicitud...</p>
+                    <p class="loading-subtext">Esto puede tardar hasta 2 minutos</p>
+                </div>
+                
+                <div id="result" class="result hidden">
+                    <div class="result-icon">✅</div>
+                    <p class="success-text">¡Publicación creada exitosamente!</p>
+                    <a id="resultLink" href="#" target="_blank" class="result-link">Ver en MercadoLibre</a>
+                    <p id="resultPrice" class="price hidden"></p>
+                    <p class="warning-text">⏳ Aguardá 5 minutos antes de comprar para que se sincronice el stock</p>
+                </div>
+            </div>
         </div>
-        
-        <div id="result" class="result hidden">
-            <p class="success">✅ ¡Publicación creada!</p>
-            <a id="resultLink" href="#" target="_blank" class="result-link"></a>
-            <p id="resultPrice" class="price hidden"></p>
-            <p class="warning">⏳ Aguardá 5 minutos antes de comprar para que se sincronice el stock</p>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">¿Cómo funciona?</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">🔗</div>
+                    <h3 class="step-title">Pegá el link</h3>
+                    <p class="step-description">Copiá la URL del producto que querés de Amazon</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">🌎</div>
+                    <h3 class="step-title">Elegí tu país</h3>
+                    <p class="step-description">Seleccioná dónde querés que aparezca publicado</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">🛒</div>
+                    <h3 class="step-title">Comprá tranquilo</h3>
+                    <p class="step-description">Lo encontrás en MercadoLibre listo para comprar</p>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">¿Por qué elegirnos?</h2>
+            <div class="benefits-grid">
+                <div class="benefit">
+                    <div class="benefit-icon">💳</div>
+                    <h3 class="benefit-title">Sin tarjeta internacional</h3>
+                    <p class="benefit-description">No necesitás tarjeta de crédito para comprar en Amazon</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">💰</div>
+                    <h3 class="benefit-title">Tu moneda local</h3>
+                    <p class="benefit-description">Pagás en pesos, reales, o la moneda de tu país</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">📦</div>
+                    <h3 class="benefit-title">Envío a tu puerta</h3>
+                    <p class="benefit-description">Lo recibís directo en tu domicilio, sin complicaciones</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">✅</div>
+                    <h3 class="benefit-title">Garantía MercadoLibre</h3>
+                    <p class="benefit-description">Protección de compra y devolución garantizada</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">Powered by <span class="brand">GlobalMelios</span></p>
+        </div>
+    </footer>
     
     <script src="script.js"></script>
 </body>
