@@ -3,130 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Importá lo que quieras - Publicá en MercadoLibre automáticamente</title>
-    <meta name="description" content="Publicá productos de Amazon en MercadoLibre en segundos. Automático, seguro y sin complicaciones.">
+    <title>Importá lo que quieras</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-gradient"></div>
-    
     <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="32" height="32" rx="8" fill="url(#gradient)"/>
-                    <path d="M16 8L20 12H12L16 8Z" fill="white"/>
-                    <rect x="12" y="12" width="8" height="12" rx="1" fill="white"/>
-                    <defs>
-                        <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
-                            <stop stop-color="#FFE600"/>
-                            <stop offset="1" stop-color="#FFA500"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
-            <h1>Importá lo que quieras</h1>
-            <p class="subtitle">Publicá productos de Amazon en MercadoLibre en <span class="highlight">segundos</span></p>
-        </div>
+        <h1>Importá lo que quieras</h1>
+        <p class="subtitle">Publicá productos de Amazon en MercadoLibre en 1 click</p>
         
-        <!-- Trust badges -->
-        <div class="trust-badges">
-            <div class="badge">
-                <span class="badge-icon">🔒</span>
-                <span class="badge-text">100% Seguro</span>
-            </div>
-            <div class="badge">
-                <span class="badge-icon">⚡</span>
-                <span class="badge-text">Automático</span>
-            </div>
-            <div class="badge">
-                <span class="badge-icon">✓</span>
-                <span class="badge-text">Sin comisiones</span>
-            </div>
-        </div>
-        
-        <!-- Form -->
-        <form id="publishForm" class="form-card">
-            <div class="input-group">
-                <label for="productInput">Link de Amazon o ASIN</label>
-                <input 
-                    type="text" 
-                    id="productInput" 
-                    placeholder="https://amazon.com/... o B08N5WRWNW"
-                    required
-                />
-                <span class="input-hint">Copiá y pegá el link del producto</span>
-            </div>
+        <form id="publishForm">
+            <input type="text" id="productInput" placeholder="Link de Amazon o ASIN (ej: B09RWWV2SK)" required>
             
-            <div class="input-group">
-                <label for="countrySelect">País de publicación</label>
-                <select id="countrySelect" required>
-                    <option value="">Seleccioná tu país</option>
-                    <option value="MLA">🇦🇷 Argentina</option>
-                    <option value="MLM">🇲🇽 México</option>
-                    <option value="MLB">🇧🇷 Brasil</option>
-                    <option value="MLC">🇨🇱 Chile</option>
-                    <option value="MCO">🇨🇴 Colombia</option>
-                </select>
-            </div>
+            <select id="countrySelect" required>
+                <option value="">Seleccioná un país</option>
+                <option value="MLA">Argentina</option>
+                <option value="MLM">México</option>
+                <option value="MLB">Brasil</option>
+                <option value="MLC">Chile</option>
+                <option value="MCO">Colombia</option>
+            </select>
             
-            <button type="submit" id="submitBtn" class="cta-button">
-                <span class="button-text">Publicar ahora</span>
-                <span class="button-arrow">→</span>
-            </button>
+            <button type="submit" id="submitBtn">PUBLICAR</button>
         </form>
         
-        <!-- Loading -->
         <div id="loading" class="loading hidden">
             <div class="spinner"></div>
-            <p class="loading-text">Procesando tu publicación...</p>
-            <p class="loading-subtext">Esto puede tomar unos segundos</p>
+            <p id="loadingText">Procesando... esto puede tardar hasta 2 minutos</p>
         </div>
         
-        <!-- Result -->
         <div id="result" class="result hidden">
-            <div class="result-icon">🎉</div>
-            <p class="success-title">¡Publicación creada!</p>
-            <div class="result-card">
-                <a id="resultLink" href="#" target="_blank" class="result-link">Ver publicación →</a>
-                <p id="resultPrice" class="price hidden"></p>
-            </div>
-            <div class="info-box">
-                <span class="info-icon">⏱️</span>
-                <p class="info-text">Aguardá 5 minutos antes de comprar para que se sincronice el stock</p>
-            </div>
+            <p class="success">✅ ¡Publicación creada!</p>
+            <a id="resultLink" href="#" target="_blank" class="result-link"></a>
+            <p id="resultPrice" class="price hidden"></p>
+            <p class="warning">⏳ Aguardá 5 minutos antes de comprar para que se sincronice el stock</p>
         </div>
-        
-        <!-- Features -->
-        <div class="features">
-            <h3 class="features-title">¿Cómo funciona?</h3>
-            <div class="features-grid">
-                <div class="feature">
-                    <div class="feature-number">1</div>
-                    <h4>Copiás el link</h4>
-                    <p>De cualquier producto de Amazon que quieras vender</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-number">2</div>
-                    <h4>Elegís el país</h4>
-                    <p>Donde querés publicar en MercadoLibre</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-number">3</div>
-                    <h4>¡Listo!</h4>
-                    <p>Tu publicación se crea automáticamente</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Footer -->
-        <footer class="footer">
-            <p class="footer-text">Powered by GlobalMelios • Hecho con ❤️ para vendedores</p>
-        </footer>
     </div>
     
     <script src="script.js"></script>

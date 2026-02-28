@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultLink = document.getElementById('resultLink');
     const resultPrice = document.getElementById('resultPrice');
     const submitBtn = document.getElementById('submitBtn');
+    const loadingText = document.getElementById('loadingText');
 
-    // API directa de GlobalMelios
     const API_URL = 'https://xxsdwlnvpbnhmjgniisy.supabase.co/functions/v1/api-publish';
     const ML_ACCOUNT_ID = '33d8aef7-c56c-46c4-8911-b7c6d748ccc5';
 
@@ -43,8 +43,32 @@ document.addEventListener('DOMContentLoaded', function() {
         loading.classList.remove('hidden');
         submitBtn.disabled = true;
         
+        // Actualizar mensaje de loading
+        let dots = 0;
+        const messages = [
+            'Buscando producto en Amazon...',
+            'Extrayendo información...',
+            'Creando publicación en MercadoLibre...',
+            'Casi listo, solo unos segundos más...'
+        ];
+        let msgIndex = 0;
+        
+        const loadingInterval = setInterval(() => {
+            dots = (dots + 1) % 4;
+            if (loadingText) {
+                loadingText.textContent = messages[msgIndex] + '.'.repeat(dots);
+            }
+        }, 500);
+        
+        const messageInterval = setInterval(() => {
+            msgIndex = Math.min(msgIndex + 1, messages.length - 1);
+        }, 20000);
+        
         try {
             const productData = extractAsin(productValue);
+            
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 min timeout
             
             const response = await fetch(API_URL, {
                 method: 'POST',
@@ -53,8 +77,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     ...productData,
                     mlAccountId: ML_ACCOUNT_ID,
                     sites: [countryValue]
-                })
+                }),
+                signal: controller.signal
             });
+            
+            clearTimeout(timeoutId);
+            clearInterval(loadingInterval);
+            clearInterval(messageInterval);
             
             const data = await response.json();
             
@@ -79,8 +108,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
         } catch (error) {
+            clearInterval(loadingInterval);
+            clearInterval(messageInterval);
             loading.classList.add('hidden');
-            alert('Error: ' + error.message);
+            
+            if (error.name === 'AbortError') {
+                alert('La publicación está tardando demasiado. Por favor intentá de nuevo en unos minutos.');
+            } else {
+                alert('Error: ' + error.message);
+            }
             console.error('Error:', error);
         } finally {
             submitBtn.disabled = false;
