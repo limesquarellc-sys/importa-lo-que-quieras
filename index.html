@@ -3,224 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ImportarYa | Comprá de Amazon en MercadoLibre</title>
-    <meta name="description" content="Importá cualquier producto de Amazon y compralo en MercadoLibre. Sin tarjeta internacional, pagá en tu moneda, con garantía.">
-    <meta name="theme-color" content="#0f172a">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>ImportarYa | Amazon → MercadoLibre</title>
+    <meta name="description" content="Comprá productos de Amazon en MercadoLibre. Sin tarjeta internacional.">
+    <meta name="theme-color" content="#000000">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="nav-logo">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                    <rect x="4" y="12" width="24" height="16" rx="2" fill="#3b82f6"/>
-                    <path d="M4 16L16 8L28 16" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
-                    <path d="M16 2V14M12 6L16 2L20 6" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                <span>ImportarYa</span>
-            </a>
-            <div class="nav-badge">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M8 1L10 5H14L11 8L12 12L8 10L4 12L5 8L2 5H6L8 1Z"/>
-                </svg>
-                <span>+10,000 productos importados</span>
+    <div class="app">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">📦</span>
+                <span class="logo-text">ImportarYa</span>
             </div>
-        </div>
-    </nav>
+            <div class="badge">✓ Activo</div>
+        </header>
 
-    <main>
-        <section class="hero">
-            <div class="hero-container">
-                <div class="hero-content">
-                    <div class="hero-badge">
-                        <span class="badge-dot"></span>
-                        Servicio activo 24/7
+        <main>
+            <section class="hero">
+                <h1>De Amazon a<br><span>MercadoLibre</span></h1>
+                <p>Pegá el link, elegí tu país y listo. Sin tarjeta internacional.</p>
+
+                <div class="card" id="formCard">
+                    <form id="publishForm">
+                        <input type="text" id="productInput" placeholder="Pegá el link de Amazon..." required>
+                        <select id="countrySelect" required>
+                            <option value="">Elegí país</option>
+                            <option value="MLA">🇦🇷 Argentina</option>
+                            <option value="MLM">🇲🇽 México</option>
+                            <option value="MLB">🇧🇷 Brasil</option>
+                            <option value="MLC">🇨🇱 Chile</option>
+                            <option value="MCO">🇨🇴 Colombia</option>
+                        </select>
+                        <button type="submit" id="submitBtn">Publicar en MercadoLibre →</button>
+                    </form>
+                </div>
+
+                <div class="card hidden" id="loadingCard">
+                    <div class="loading-container">
+                        <div class="plane-animation">
+                            <div class="plane">✈️</div>
+                            <div class="trail"></div>
+                        </div>
+                        <div class="package-drop">📦</div>
                     </div>
-                    <h1>Comprá cualquier producto de <span class="highlight">Amazon</span> en <span class="highlight">MercadoLibre</span></h1>
-                    <p class="hero-desc">Pegá el link del producto que querés, elegí tu país y en minutos lo tenés disponible para comprar con todas las ventajas de MercadoLibre.</p>
-                    
-                    <div class="hero-form">
-                        <form id="publishForm">
-                            <div class="form-row">
-                                <div class="input-wrapper">
-                                    <svg class="input-icon" width="20" height="20" fill="none" stroke="#94a3b8" stroke-width="2">
-                                        <path d="M10 2C5.6 2 2 5.6 2 10s3.6 8 8 8 8-3.6 8-8"/>
-                                        <path d="M18 2v6h-6"/>
-                                    </svg>
-                                    <input type="text" id="productInput" placeholder="Pegá el link de Amazon aquí..." required>
-                                </div>
-                            </div>
-                            <div class="form-row form-row-split">
-                                <div class="select-wrapper">
-                                    <select id="countrySelect" required>
-                                        <option value="">Elegí tu país</option>
-                                        <option value="MLA">🇦🇷 Argentina</option>
-                                        <option value="MLM">🇲🇽 México</option>
-                                        <option value="MLB">🇧🇷 Brasil</option>
-                                        <option value="MLC">🇨🇱 Chile</option>
-                                        <option value="MCO">🇨🇴 Colombia</option>
-                                    </select>
-                                </div>
-                                <button type="submit" id="submitBtn" class="btn-submit">
-                                    <span>Publicar ahora</span>
-                                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M5 10h10M12 6l4 4-4 4"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </form>
-                        
-                        <div id="loading" class="loading hidden">
-                            <div class="loading-animation">
-                                <div class="cloud"><svg width="30" height="20" fill="#64748b"><ellipse cx="15" cy="12" rx="12" ry="8"/><ellipse cx="8" cy="10" rx="6" ry="5"/><ellipse cx="22" cy="10" rx="6" ry="5"/></svg></div>
-                                <div class="cloud"><svg width="30" height="20" fill="#64748b"><ellipse cx="15" cy="12" rx="12" ry="8"/><ellipse cx="8" cy="10" rx="6" ry="5"/><ellipse cx="22" cy="10" rx="6" ry="5"/></svg></div>
-                                <div class="airplane"><svg width="50" height="50" viewBox="0 0 50 50"><path d="M45 20L30 25L15 15L10 17L22 27L12 30L5 27L2 29L10 35L30 30L48 22L45 20Z" fill="#3b82f6"/><path d="M25 28L28 40L32 38L30 28" fill="#60a5fa"/></svg></div>
-                                <div class="package"><svg width="30" height="30" viewBox="0 0 30 30"><rect x="5" y="10" width="20" height="15" fill="#f59e0b" rx="2"/><path d="M5 13L15 8L25 13" fill="#fbbf24"/><line x1="15" y1="8" x2="15" y2="25" stroke="#d97706" stroke-width="2"/><line x1="5" y1="17" x2="25" y2="17" stroke="#d97706" stroke-width="2"/></svg></div>
-                            </div>
-                            <div class="loading-steps">
-                                <div class="loading-step" id="step1"></div>
-                                <div class="loading-step" id="step2"></div>
-                                <div class="loading-step" id="step3"></div>
-                                <div class="loading-step" id="step4"></div>
-                            </div>
-                            <p id="loadingText">Buscando en Amazon...</p>
-                        </div>
-                        
-                        <div id="result" class="result hidden">
-                            <div class="result-icon">✓</div>
-                            <h3>¡Publicación creada!</h3>
-                            <a id="resultLink" href="#" target="_blank" class="result-btn">Ver en MercadoLibre</a>
-                            <p id="resultPrice" class="result-price hidden"></p>
-                            <p class="result-note">El stock se sincroniza en ~5 minutos</p>
-                        </div>
-                    </div>
-                    
-                    <div class="trust-badges">
-                        <div class="trust-item">
-                            <svg width="20" height="20" fill="none" stroke="#22c55e" stroke-width="2">
-                                <path d="M10 1L12.5 6H18L13.5 9.5L15.5 15L10 11.5L4.5 15L6.5 9.5L2 6H7.5L10 1Z"/>
-                            </svg>
-                            <span>Garantía MercadoLibre</span>
-                        </div>
-                        <div class="trust-item">
-                            <svg width="20" height="20" fill="none" stroke="#22c55e" stroke-width="2">
-                                <rect x="3" y="6" width="14" height="10" rx="2"/>
-                                <path d="M7 6V4a3 3 0 016 0v2"/>
-                            </svg>
-                            <span>Pago seguro</span>
-                        </div>
-                        <div class="trust-item">
-                            <svg width="20" height="20" fill="none" stroke="#22c55e" stroke-width="2">
-                                <circle cx="10" cy="10" r="8"/>
-                                <path d="M7 10l2 2 4-4"/>
-                            </svg>
-                            <span>100% Confiable</span>
-                        </div>
+                    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                    <p class="loading-text" id="loadingText">Conectando con Amazon...</p>
+                </div>
+
+                <div class="card hidden" id="resultCard">
+                    <div class="success-icon">✅</div>
+                    <h2>¡Publicación lista!</h2>
+                    <a id="resultLink" href="#" target="_blank" class="result-btn">Ver en MercadoLibre</a>
+                    <p id="resultPrice" class="price"></p>
+                    <button class="btn-secondary" onclick="location.reload()">Publicar otro</button>
+                </div>
+
+                <div class="trust">
+                    <span>🔒 Pago seguro</span>
+                    <span>⚡ Inmediato</span>
+                    <span>✓ Garantía ML</span>
+                </div>
+            </section>
+
+            <section class="features">
+                <div class="feature">
+                    <span class="feature-icon">💳</span>
+                    <div>
+                        <strong>Sin tarjeta internacional</strong>
+                        <p>Pagá en pesos con cualquier medio</p>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section class="features">
-            <div class="container">
-                <h2>¿Por qué usar ImportarYa?</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="4" y="8" width="20" height="14" rx="2"/>
-                                <path d="M4 12h20M8 16h4"/>
-                            </svg>
-                        </div>
-                        <h3>Sin tarjeta internacional</h3>
-                        <p>Pagá con tarjeta local, efectivo, transferencia o MercadoPago.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <circle cx="14" cy="14" r="10"/>
-                                <path d="M14 8v6l4 2"/>
-                            </svg>
-                        </div>
-                        <h3>Rápido y automático</h3>
-                        <p>En minutos tenés el producto disponible para comprar.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M4 14h6l2-4 4 8 2-4h6"/>
-                            </svg>
-                        </div>
-                        <h3>Precio transparente</h3>
-                        <p>Ves el precio final en tu moneda antes de comprar.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M12 4L4 8v8l8 4 8-4V8l-8-4z"/>
-                                <path d="M4 8l8 4 8-4M12 12v8"/>
-                            </svg>
-                        </div>
-                        <h3>Envío a tu puerta</h3>
-                        <p>Lo recibís donde quieras con el envío de MercadoLibre.</p>
+                <div class="feature">
+                    <span class="feature-icon">🚚</span>
+                    <div>
+                        <strong>Envío a tu casa</strong>
+                        <p>Con la logística de MercadoLibre</p>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section class="how-it-works">
-            <div class="container">
-                <h2>¿Cómo funciona?</h2>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <h3>Copiá el link</h3>
-                        <p>Buscá el producto en Amazon y copiá la URL</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <h3>Elegí tu país</h3>
-                        <p>Argentina, México, Brasil, Chile o Colombia</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <h3>Comprá tranquilo</h3>
-                        <p>Te damos el link para comprar en MercadoLibre</p>
+                <div class="feature">
+                    <span class="feature-icon">🛡️</span>
+                    <div>
+                        <strong>Compra protegida</strong>
+                        <p>Garantía de MercadoLibre</p>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="recent-section">
-            <div class="container">
-                <h2>Últimas publicaciones</h2>
-                <div id="recentPubs" class="recent-grid">
-                    <p class="empty-message">Las publicaciones aparecerán aquí</p>
-                </div>
-            </div>
-        </section>
-    </main>
+            <section class="recent">
+                <h3>Últimas publicaciones</h3>
+                <div id="recentPubs"></div>
+            </section>
+        </main>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-                        <rect x="4" y="12" width="24" height="16" rx="2" fill="#3b82f6"/>
-                        <path d="M4 16L16 8L28 16" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
-                        <path d="M16 2V14M12 6L16 2L20 6" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                    <span>ImportarYa</span>
-                </div>
-                <p>Powered by <strong>GlobalMelios</strong></p>
-            </div>
-        </div>
-    </footer>
-
+        <footer>
+            <p>Powered by <strong>GlobalMelios</strong></p>
+        </footer>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

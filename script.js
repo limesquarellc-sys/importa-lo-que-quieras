@@ -1,6 +1,12 @@
 const API_BASE = 'https://xxsdwlnvpbnhmjgniisy.supabase.co/functions/v1';
 const ML_ACCOUNT_ID = '33d8aef7-c56c-46c4-8911-b7c6d748ccc5';
 
+const formCard = document.getElementById('formCard');
+const loadingCard = document.getElementById('loadingCard');
+const resultCard = document.getElementById('resultCard');
+const progressFill = document.getElementById('progressFill');
+const loadingText = document.getElementById('loadingText');
+
 async function savePub(pub) {
     try {
         await fetch('/api/save-pub', {
@@ -9,9 +15,7 @@ async function savePub(pub) {
             body: JSON.stringify(pub)
         });
         loadRecentPubs();
-    } catch (e) {
-        console.error('Error saving pub:', e);
-    }
+    } catch (e) {}
 }
 
 async function loadRecentPubs() {
@@ -25,35 +29,35 @@ async function loadRecentPubs() {
         const pubs = await res.json();
         
         if (pubs && pubs.length > 0) {
-            container.innerHTML = pubs.map(pub => `
-                <a href="${pub.permalink}" target="_blank" class="pub-card">
+            container.innerHTML = pubs.slice(0, 5).map(pub => `
+                <a href="${pub.permalink}" target="_blank" class="pub-item">
                     <span class="pub-flag">${flags[pub.site] || '🌎'}</span>
                     <div class="pub-info">
                         <div class="pub-title">${pub.title || 'Producto'}</div>
                         <div class="pub-meta">
                             <span class="pub-price">$${pub.price?.toLocaleString() || '—'}</span>
-                            <span> · ${getTimeAgo(pub.timestamp)}</span>
+                            · ${getTimeAgo(pub.timestamp)}
                         </div>
                     </div>
                 </a>
             `).join('');
         } else {
-            container.innerHTML = '<p class="empty-message">Las publicaciones aparecerán aquí</p>';
+            container.innerHTML = '<p class="empty-msg">Las publicaciones aparecerán aquí</p>';
         }
     } catch (e) {
-        container.innerHTML = '<p class="empty-message">Las publicaciones aparecerán aquí</p>';
+        container.innerHTML = '<p class="empty-msg">Las publicaciones aparecerán aquí</p>';
     }
 }
 
-function getTimeAgo(timestamp) {
-    if (!timestamp) return 'hace poco';
-    const seconds = Math.floor((Date.now() - timestamp) / 1000);
-    if (seconds < 60) return 'hace segundos';
-    const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) return `hace ${minutes} min`;
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `hace ${hours}h`;
-    return `hace ${Math.floor(hours / 24)}d`;
+function getTimeAgo(ts) {
+    if (!ts) return 'hace poco';
+    const s = Math.floor((Date.now() - ts) / 1000);
+    if (s < 60) return 'ahora';
+    const m = Math.floor(s / 60);
+    if (m < 60) return `${m}m`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h}h`;
+    return `${Math.floor(h / 24)}d`;
 }
 
 function extractAsin(input) {
@@ -62,55 +66,63 @@ function extractAsin(input) {
     return match ? { asin: match[1].toUpperCase() } : { url: input };
 }
 
-async function pollJobStatus(jobId, loadingText) {
-    const messages = ['Buscando en Amazon...', 'Extrayendo información...', 'Creando publicación...', 'Casi listo...'];
-    const steps = ['step1', 'step2', 'step3', 'step4'];
+function showCard(card) {
+    [formCard, loadingCard, resultCard].forEach(c => c.classList.add('hidden'));
+    card.classList.remove('hidden');
+}
+
+function updateProgress(percent, text) {
+    progressFill.style.width = percent + '%';
+    loadingText.textContent = text;
+}
+
+async function pollJobStatus(jobId) {
+    const steps = [
+        [15, 'Buscando en Amazon...'],
+        [40, 'Extrayendo información...'],
+        [70, 'Creando publicación...'],
+        [90, 'Casi listo...']
+    ];
+    
+    let stepIndex = 0;
+    updateProgress(steps[0][0], steps[0][1]);
+    
     for (let i = 0; i < 60; i++) {
-        const stepIndex = Math.min(Math.floor(i / 15), 3);
-        if (loadingText) loadingText.textContent = messages[stepIndex];
-        // Animar pasos
-        steps.forEach((id, idx) => {
-            const el = document.getElementById(id);
-            if (el) el.classList.toggle('active', idx <= stepIndex);
-        });
+        if (i > 0 && i % 5 === 0 && stepIndex < steps.length - 1) {
+            stepIndex++;
+            updateProgress(steps[stepIndex][0], steps[stepIndex][1]);
+        }
+        
         try {
             const res = await fetch(`${API_BASE}/api-job-status?jobId=${jobId}`);
             const data = await res.json();
-            if (data.job?.is_completed) return data;
+            if (data.job?.is_completed) {
+                updateProgress(100, '¡Listo!');
+                return data;
+            }
         } catch (e) {}
+        
         await new Promise(r => setTimeout(r, 3000));
     }
     throw new Error('Timeout');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('publishForm');
-    const productInput = document.getElementById('productInput');
-    const countrySelect = document.getElementById('countrySelect');
-    const loading = document.getElementById('loading');
-    const result = document.getElementById('result');
-    const resultLink = document.getElementById('resultLink');
-    const resultPrice = document.getElementById('resultPrice');
-    const submitBtn = document.getElementById('submitBtn');
-    const loadingText = document.getElementById('loadingText');
-
     loadRecentPubs();
 
-    form.addEventListener('submit', async function(e) {
+    document.getElementById('publishForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        const productValue = productInput.value.trim();
-        const countryValue = countrySelect.value;
+        const productValue = document.getElementById('productInput').value.trim();
+        const countryValue = document.getElementById('countrySelect').value;
         
         if (!productValue || !countryValue) {
             alert('Completá todos los campos');
             return;
         }
         
-        form.style.display = 'none';
-        result.classList.add('hidden');
-        loading.classList.remove('hidden');
-        submitBtn.disabled = true;
+        showCard(loadingCard);
+        updateProgress(5, 'Iniciando...');
         
         try {
             const productData = extractAsin(productValue);
@@ -126,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const startData = await startRes.json();
             if (!startData?.jobId) throw new Error('No se pudo iniciar');
             
-            const data = await pollJobStatus(startData.jobId, loadingText);
+            const data = await pollJobStatus(startData.jobId);
             const item = data.items?.[0];
             if (!item || item.error) throw new Error(item?.error || 'Sin resultados');
             
@@ -134,27 +146,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const price = item.ml_prices?.[countryValue];
             const title = item.title || productData.asin;
             
-            if (!permalink) throw new Error('No se pudo crear la publicación');
+            if (!permalink) throw new Error('No se pudo crear');
             
             savePub({ title, permalink, site: countryValue, price });
             
-            loading.classList.add('hidden');
-            result.classList.remove('hidden');
-            resultLink.href = permalink;
+            document.getElementById('resultLink').href = permalink;
+            document.getElementById('resultPrice').textContent = price ? `Precio: $${price.toLocaleString()}` : '';
             
-            if (price) {
-                resultPrice.textContent = 'Precio: $' + price.toLocaleString();
-                resultPrice.classList.remove('hidden');
-            }
-            
-            productInput.value = '';
+            showCard(resultCard);
             
         } catch (error) {
-            loading.classList.add('hidden');
-            form.style.display = 'block';
             alert('Error: ' + error.message);
-        } finally {
-            submitBtn.disabled = false;
+            showCard(formCard);
         }
     });
 });
