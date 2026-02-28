@@ -8,7 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultPrice = document.getElementById('resultPrice');
     const submitBtn = document.getElementById('submitBtn');
 
-    // Detectar si es ASIN o URL
+    // API directa de GlobalMelios
+    const API_URL = 'https://xxsdwlnvpbnhmjgniisy.supabase.co/functions/v1/api-publish';
+    const ML_ACCOUNT_ID = '33d8aef7-c56c-46c4-8911-b7c6d748ccc5';
+
     function extractAsin(input) {
         if (/^[A-Z0-9]{10}$/i.test(input)) {
             return { asin: input.toUpperCase() };
@@ -43,12 +46,13 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const productData = extractAsin(productValue);
             
-            const response = await fetch('/api/publish', {
+            const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     ...productData,
-                    country: countryValue
+                    mlAccountId: ML_ACCOUNT_ID,
+                    sites: [countryValue]
                 })
             });
             
