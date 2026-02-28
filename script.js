@@ -64,8 +64,15 @@ function extractAsin(input) {
 
 async function pollJobStatus(jobId, loadingText) {
     const messages = ['Buscando en Amazon...', 'Extrayendo información...', 'Creando publicación...', 'Casi listo...'];
+    const steps = ['step1', 'step2', 'step3', 'step4'];
     for (let i = 0; i < 60; i++) {
-        if (loadingText) loadingText.textContent = messages[Math.min(Math.floor(i / 15), 3)];
+        const stepIndex = Math.min(Math.floor(i / 15), 3);
+        if (loadingText) loadingText.textContent = messages[stepIndex];
+        // Animar pasos
+        steps.forEach((id, idx) => {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('active', idx <= stepIndex);
+        });
         try {
             const res = await fetch(`${API_BASE}/api-job-status?jobId=${jobId}`);
             const data = await res.json();

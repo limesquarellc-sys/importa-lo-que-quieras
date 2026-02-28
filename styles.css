@@ -514,3 +514,97 @@ footer strong {
     
     .footer-content { justify-content: center; text-align: center; }
 }
+
+/* Loading Animation - Airplane */
+.loading-animation {
+    position: relative;
+    width: 200px;
+    height: 120px;
+    margin: 0 auto 24px;
+}
+
+.airplane {
+    position: absolute;
+    animation: fly 3s ease-in-out infinite;
+}
+
+@keyframes fly {
+    0% { left: -50px; top: 20px; transform: rotate(-5deg); }
+    50% { left: 100px; top: 0; transform: rotate(5deg); }
+    100% { left: -50px; top: 20px; transform: rotate(-5deg); }
+}
+
+.package {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: drop 3s ease-in-out infinite;
+}
+
+@keyframes drop {
+    0%, 40% { opacity: 0; top: 30px; }
+    50% { opacity: 1; top: 30px; }
+    100% { opacity: 1; top: 80px; }
+}
+
+.cloud {
+    position: absolute;
+    opacity: 0.3;
+    animation: clouds 4s linear infinite;
+}
+
+.cloud:nth-child(1) { top: 10px; animation-delay: 0s; }
+.cloud:nth-child(2) { top: 50px; animation-delay: 1.5s; }
+
+@keyframes clouds {
+    0% { right: -30px; }
+    100% { right: 220px; }
+}
+
+.loading-steps {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.loading-step {
+    width: 40px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.loading-step.active {
+    background: var(--primary);
+    animation: progress 3s ease-out forwards;
+}
+
+@keyframes progress {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+.loading-step-inner {
+    height: 100%;
+    background: var(--primary);
+    width: 0;
+    animation: step-progress 2s ease-out forwards;
+}
+
+.loading p {
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+}
+
+.loading-emoji {
+    font-size: 2.5rem;
+    animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
