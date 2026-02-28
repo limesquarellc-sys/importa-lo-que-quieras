@@ -34,7 +34,7 @@ module.exports = async function handler(req, res) {
         pubs = pubs.slice(0, 15);
         
         await put('publications.json', JSON.stringify(pubs), {
-            access: 'private',
+            access: 'public',
             addRandomSuffix: false
         });
         
