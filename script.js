@@ -91,21 +91,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
             });
             
+            if (!startRes.ok) {
+                const errorData = await startRes.json().catch(() => ({}));
+                throw new Error(errorData.error || `Error del servidor (${startRes.status})`);
+            }
+            
             const startData = await startRes.json();
             
-            if (!startRes.ok || !startData.jobId) {
-                throw new Error(startData.error || 'Error al iniciar el proceso');
+            if (!startData || !startData.jobId) {
+                throw new Error('No se pudo iniciar el proceso - respuesta inválida del servidor');
             }
             
             // Polling hasta completar
             const data = await pollJobStatus(startData.jobId, countryValue);
             
             // Verificar resultado
-            if (!data.items || data.items.length === 0) {
-                throw new Error('No se recibió resultado');
+            if (!data || !data.items || data.items.length === 0) {
+                throw new Error('El servidor no devolvió resultados. Por favor, intentá de nuevo.');
             }
             
             const item = data.items[0];
+            
+            if (!item) {
+                throw new Error('Respuesta inválida del servidor');
+            }
             
             if (item.error) {
                 throw new Error(item.error);
@@ -137,3 +146,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Cargar publicaciones recientes
+async function loadRecentPubs() {
+    const container = document.getElementById('recentPubs');
+    if (!container) return;
+    
+    const flags = { MLA: '🇦🇷', MLM: '🇲🇽', MLB: '🇧🇷', MLC: '🇨🇱', MCO: '🇨🇴' };
+    
+    try {
+        const res = await fetch('https://xxsdwlnvpbnhmjgniisy.supabase.co/functions/v1/api-recent-publications?limit=10');
+        const data = await res.json();
+        
+        if (data.publications && data.publications.length > 0) {
+            container.innerHTML = data.publications.map(pub => `
+                <a href="${pub.permalink}" target="_blank" class="pub-card">
+                    <span class="pub-flag">${flags[pub.site] || '🌎'}</span>
+                    <div class="pub-info">
+                        <div class="pub-title">${pub.title || pub.asin}</div>
+                        <div class="pub-meta">
+                            <span class="pub-price">$${pub.price?.toLocaleString() || '—'}</span>
+                            <span> · hace ${pub.time_ago || 'poco'}</span>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        } else {
+            container.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">Las publicaciones aparecerán aquí</p>';
+        }
+    } catch (e) {
+        container.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">Las publicaciones aparecerán aquí</p>';
+    }
+}
+
+// Cargar al iniciar
+loadRecentPubs();
+// Refrescar cada 30 segundos
+setInterval(loadRecentPubs, 30000);
