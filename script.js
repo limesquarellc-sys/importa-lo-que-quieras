@@ -38,10 +38,10 @@ async function loadRecentPubs() {
                 </a>
             `).join('');
         } else {
-            container.innerHTML = '<p class="empty-state">Las publicaciones aparecerán aquí</p>';
+            container.innerHTML = '<p class="empty-message">Las publicaciones aparecerán aquí</p>';
         }
     } catch (e) {
-        container.innerHTML = '<p class="empty-state">Las publicaciones aparecerán aquí</p>';
+        container.innerHTML = '<p class="empty-message">Las publicaciones aparecerán aquí</p>';
     }
 }
 
@@ -63,7 +63,7 @@ function extractAsin(input) {
 }
 
 async function pollJobStatus(jobId, loadingText) {
-    const messages = ['Buscando producto...', 'Extrayendo info...', 'Creando publicación...', 'Casi listo...'];
+    const messages = ['Buscando en Amazon...', 'Extrayendo información...', 'Creando publicación...', 'Casi listo...'];
     for (let i = 0; i < 60; i++) {
         if (loadingText) loadingText.textContent = messages[Math.min(Math.floor(i / 15), 3)];
         try {
@@ -100,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        form.style.display = 'none';
         result.classList.add('hidden');
         loading.classList.remove('hidden');
         submitBtn.disabled = true;
@@ -133,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function() {
             loading.classList.add('hidden');
             result.classList.remove('hidden');
             resultLink.href = permalink;
-            resultLink.textContent = permalink;
             
             if (price) {
                 resultPrice.textContent = 'Precio: $' + price.toLocaleString();
@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
         } catch (error) {
             loading.classList.add('hidden');
+            form.style.display = 'block';
             alert('Error: ' + error.message);
         } finally {
             submitBtn.disabled = false;
