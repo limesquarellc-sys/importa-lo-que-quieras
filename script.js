@@ -33,7 +33,7 @@ async function loadRecent() {
                     <span class="pub-flag">${{MLA:'🇦🇷',MLM:'🇲🇽',MLB:'🇧🇷',MLC:'🇨🇱',MCO:'🇨🇴'}[p.site]||'🌎'}</span>
                     <div class="pub-info">
                         <div class="pub-title">${title}</div>
-                        <div class="pub-meta"><span class="pub-price">$${p.price?.toLocaleString()||'—'}</span></div>
+                        
                     </div>
                 </a>
             `}).join('');
