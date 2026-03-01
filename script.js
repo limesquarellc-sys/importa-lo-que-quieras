@@ -89,9 +89,28 @@ form.addEventListener('submit', async e => {
             })
         });
 
-        document.getElementById('resultLink').href = item.permalinks[country];
+        const permalink = item.permalinks[country];
         const price = item.ml_prices?.[country];
+        const title = item.title;
+        
+        document.getElementById('resultLink').href = permalink;
         document.getElementById('resultPrice').textContent = price ? `Precio: $${price.toLocaleString()}` : '';
+        
+        // Enviar WhatsApp si hay número
+        const whatsapp = document.getElementById('whatsappInput').value.trim();
+        if (whatsapp) {
+            fetch('/api/queue-whatsapp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    phone: whatsapp,
+                    link: permalink,
+                    title: title,
+                    price: price,
+                    country: country
+                })
+            }).catch(e => console.log('WhatsApp queue error:', e));
+        }
         
         show(result);
         loadRecent();
