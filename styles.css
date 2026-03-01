@@ -498,29 +498,78 @@ h2 {
     font-size: 14px;
 }
 
-/* 5 columnas en desktop */
-.benefits-5 {
-    grid-template-columns: repeat(5, 1fr);
+/* MercadoLíder Section */
+.mercadolider {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
 }
 
-.benefit-leader {
-    background: linear-gradient(135deg, #0a1f0a 0%, #143314 100%);
-    border-color: #22c55e44;
+.ml-card {
+    background: linear-gradient(135deg, #0a1a0a 0%, #0f2a0f 100%);
+    border: 2px solid #22c55e33;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
 }
 
-.benefit-leader h3 {
+.ml-badge {
+    font-size: 56px;
+    margin-bottom: 20px;
+}
+
+.ml-info h3 {
+    font-size: 28px;
     color: #22c55e;
+    margin-bottom: 12px;
 }
 
-@media (max-width: 900px) {
-    .benefits-5 {
-        grid-template-columns: repeat(3, 1fr);
-    }
+.ml-info p {
+    color: #888;
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+}
+
+.ml-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+}
+
+.ml-stat {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+    color: #22c55e;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #666;
 }
 
 @media (max-width: 600px) {
-    .benefits-5 {
-        grid-template-columns: 1fr;
+    .ml-card {
+        padding: 32px 24px;
+    }
+    
+    .ml-info h3 {
+        font-size: 22px;
+    }
+    
+    .ml-stats {
+        gap: 24px;
+    }
+    
+    .stat-number {
+        font-size: 24px;
     }
 }
 
