@@ -52,7 +52,7 @@
         
         /* Slide 2 - Problema */
         .slide-2 {
-            background: linear-gradient(180deg, #0a0a0a 0%, #1a0a0a 50%, #200a0a 100%);
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
         }
         .slide-2::before {
             content: '';
@@ -61,42 +61,44 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at 50% 20%, rgba(239,68,68,0.15) 0%, transparent 50%);
+            background: radial-gradient(circle at 50% 30%, rgba(124,58,237,0.2) 0%, transparent 60%);
         }
         .slide-2 .problems-container {
             display: flex;
             flex-direction: column;
-            gap: 50px;
+            gap: 40px;
             position: relative;
             z-index: 1;
         }
         .slide-2 .problem {
             display: flex;
             align-items: center;
-            gap: 40px;
-            background: rgba(239,68,68,0.1);
-            padding: 30px 50px;
-            border-radius: 20px;
-            border: 2px solid rgba(239,68,68,0.3);
+            gap: 30px;
+            background: rgba(255,255,255,0.05);
+            padding: 28px 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .slide-2 .x {
-            font-size: 60px;
-            color: #ef4444;
-            text-shadow: 0 0 30px rgba(239,68,68,0.8);
+            font-size: 50px;
+            color: #f87171;
         }
         .slide-2 .text {
-            font-size: 52px;
-            font-weight: 700;
-            color: #fff;
+            font-size: 44px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
         }
         .slide-2 h2 {
-            font-size: 80px;
+            font-size: 72px;
             font-weight: 900;
-            color: #ef4444;
-            margin-bottom: 80px;
-            text-shadow: 0 0 40px rgba(239,68,68,0.5);
+            color: #fff;
+            margin-bottom: 60px;
             position: relative;
             z-index: 1;
+        }
+        .slide-2 .emoji {
+            font-size: 120px;
+            margin-bottom: 40px;
         }
         
         /* Slide 3 - Solución */
@@ -263,6 +265,7 @@
     
     <!-- Slide 2: Problema -->
     <div class="slide slide-2" id="slide2">
+        <div class="emoji">😔</div>
         <h2>El problema...</h2>
         <div class="problems-container">
             <div class="problem">
