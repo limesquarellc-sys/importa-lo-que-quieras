@@ -154,7 +154,7 @@ nav {
     height: 150%;
     background: url('importalo-form.png') center center no-repeat;
     background-size: cover;
-    opacity: 0.06;
+    opacity: 0.04;
     z-index: 0;
     pointer-events: none;
 }
@@ -457,7 +457,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; top: 0 !important; }
     height: calc(100% + 40px);
     background: url('importalo-trust.png') center center no-repeat;
     background-size: cover;
-    opacity: 0.08;
+    opacity: 0.05;
     z-index: -1;
     pointer-events: none;
     border-radius: 20px;
