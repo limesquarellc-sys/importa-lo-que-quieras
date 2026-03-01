@@ -91,7 +91,20 @@ form.addEventListener('submit', async e => {
 
         const permalink = item.permalinks[country];
         const price = item.ml_prices?.[country];
-        const title = item.title;
+        
+        // Extraer título: de la API o del permalink
+        let title = item.title;
+        if (!title || title === 'Producto') {
+            // Extraer del permalink: /MLA-123-nombre-del-producto-_JM
+            const urlMatch = permalink.match(/MLA-\d+-(.+)-_JM/i) || 
+                            permalink.match(/MLM-\d+-(.+)-_JM/i) ||
+                            permalink.match(/MLB-\d+-(.+)-_JM/i) ||
+                            permalink.match(/MLC-\d+-(.+)-_JM/i) ||
+                            permalink.match(/MCO-\d+-(.+)-_JM/i);
+            if (urlMatch) {
+                title = urlMatch[1].replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            }
+        }
         
         document.getElementById('resultTitle').textContent = title || 'Producto publicado';
         document.getElementById('resultLink').href = permalink;
