@@ -602,6 +602,7 @@ h2 {
 .pub-flag { font-size: 28px; }
 .pub-info { flex: 1; min-width: 0; }
 .pub-title { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pub-date { font-size: 12px; color: #666; margin-top: 4px; }
 .pub-meta { font-size: 13px; color: var(--muted); margin-top: 4px; }
 .pub-price { color: var(--success); font-weight: 500; }
 
