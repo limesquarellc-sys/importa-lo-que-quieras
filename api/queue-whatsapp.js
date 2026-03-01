@@ -1,6 +1,6 @@
 import { put } from '@vercel/blob';
 
-const WEBHOOK_URL = 'https://hamilton-meetings-arabic-relatively.trycloudflare.com';
+const WEBHOOK_URL = 'https://dean-transmitted-neither-manner.trycloudflare.com';
 const WEBHOOK_SECRET = 'importalo-ya-webhook-2026';
 
 export default async function handler(req, res) {
