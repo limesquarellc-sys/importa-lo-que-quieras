@@ -33,7 +33,7 @@ async function loadRecent() {
                     <span class="pub-flag">${{MLA:'🇦🇷',MLM:'🇲🇽',MLB:'🇧🇷',MLC:'🇨🇱',MCO:'🇨🇴'}[p.site]||'🌎'}</span>
                     <div class="pub-info">
                         <div class="pub-title">${title}</div>
-                        <div class="pub-meta">${p.price ? `$${p.price.toLocaleString()}` : ''}</div>
+                        
                     </div>
                 </a>
             `}).join('');
@@ -119,7 +119,7 @@ form.addEventListener('submit', async e => {
         document.getElementById('resultTitle').textContent = title || 'Producto publicado';
         document.getElementById('resultLink').href = permalink;
         document.getElementById('resultLink').textContent = permalink;
-        document.getElementById('resultPrice').textContent = price ? `$${price.toLocaleString()}` : '';
+        
         
         // Enviar WhatsApp si hay número
         const whatsapp = document.getElementById('whatsappInput').value.trim();
