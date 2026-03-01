@@ -140,6 +140,28 @@ nav {
     border-radius: 16px;
     padding: 32px;
     text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+
+.form-card::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150%;
+    height: 150%;
+    background: url('importalo-form.png') center center no-repeat;
+    background-size: cover;
+    opacity: 0.06;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.form-card > * {
+    position: relative;
+    z-index: 1;
 }
 
 .input-group {
@@ -421,6 +443,24 @@ button:disabled { opacity: 0.5; cursor: not-allowed; top: 0 !important; }
     gap: 24px;
     margin-top: 32px;
     flex-wrap: wrap;
+    position: relative;
+    padding: 20px;
+}
+
+.trust-row::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120%;
+    height: calc(100% + 40px);
+    background: url('importalo-trust.png') center center no-repeat;
+    background-size: cover;
+    opacity: 0.08;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: 20px;
 }
 
 .trust-row span {
@@ -684,6 +724,21 @@ footer {
     border-top: 1px solid var(--border);
     color: var(--muted);
     font-size: 14px;
+    position: relative;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('importalo-footer.png') center bottom no-repeat;
+    background-size: cover;
+    opacity: 0.1;
+    z-index: -1;
+    pointer-events: none;
 }
 
 footer strong { color: var(--accent); }
