@@ -52,34 +52,51 @@
         
         /* Slide 2 - Problema */
         .slide-2 {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d1f1f 100%);
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a0a0a 50%, #200a0a 100%);
+        }
+        .slide-2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 20%, rgba(239,68,68,0.15) 0%, transparent 50%);
+        }
+        .slide-2 .problems-container {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            position: relative;
+            z-index: 1;
         }
         .slide-2 .problem {
             display: flex;
             align-items: center;
-            gap: 30px;
-            margin: 30px 0;
+            gap: 40px;
+            background: rgba(239,68,68,0.1);
+            padding: 30px 50px;
+            border-radius: 20px;
+            border: 2px solid rgba(239,68,68,0.3);
         }
         .slide-2 .x {
-            font-size: 80px;
+            font-size: 60px;
             color: #ef4444;
+            text-shadow: 0 0 30px rgba(239,68,68,0.8);
         }
         .slide-2 .text {
-            font-size: 56px;
+            font-size: 52px;
             font-weight: 700;
-            color: #888;
-            text-decoration: line-through;
-            text-decoration-color: #ef4444;
+            color: #fff;
         }
         .slide-2 h2 {
-            font-size: 72px;
+            font-size: 80px;
             font-weight: 900;
-            color: #fff;
-            margin-top: 80px;
-        }
-        .slide-2 .emoji {
-            font-size: 150px;
-            margin-bottom: 60px;
+            color: #ef4444;
+            margin-bottom: 80px;
+            text-shadow: 0 0 40px rgba(239,68,68,0.5);
+            position: relative;
+            z-index: 1;
         }
         
         /* Slide 3 - Solución */
@@ -246,20 +263,25 @@
     
     <!-- Slide 2: Problema -->
     <div class="slide slide-2" id="slide2">
-        <div class="emoji">😩</div>
-        <div class="problem">
-            <span class="x">✕</span>
-            <span class="text">Sin tarjeta internacional</span>
+        <h2>El problema...</h2>
+        <div class="problems-container">
+            <div class="problem">
+                <span class="x">✕</span>
+                <span class="text">Sin tarjeta internacional</span>
+            </div>
+            <div class="problem">
+                <span class="x">✕</span>
+                <span class="text">Envío imposible</span>
+            </div>
+            <div class="problem">
+                <span class="x">✕</span>
+                <span class="text">Impuestos sorpresa</span>
+            </div>
+            <div class="problem">
+                <span class="x">✕</span>
+                <span class="text">No llega a Argentina</span>
+            </div>
         </div>
-        <div class="problem">
-            <span class="x">✕</span>
-            <span class="text">Envío carísimo</span>
-        </div>
-        <div class="problem">
-            <span class="x">✕</span>
-            <span class="text">Impuestos sorpresa</span>
-        </div>
-        <h2>¿Te suena?</h2>
     </div>
     
     <!-- Slide 3: Solución -->
