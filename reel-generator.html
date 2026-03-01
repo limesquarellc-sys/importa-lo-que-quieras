@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        .slide {
+            width: 1080px;
+            height: 1920px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+            padding: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide.active { display: flex; }
+        
+        /* Slide 1 - Hook */
+        .slide-1 {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        .slide-1::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,153,0,0.15) 0%, transparent 50%);
+        }
+        .slide-1 .icon {
+            font-size: 180px;
+            margin-bottom: 60px;
+        }
+        .slide-1 h1 {
+            font-size: 88px;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.1;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+        .slide-1 .amazon {
+            color: #ff9900;
+        }
+        
+        /* Slide 2 - Problema */
+        .slide-2 {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d1f1f 100%);
+        }
+        .slide-2 .problem {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .slide-2 .x {
+            font-size: 80px;
+            color: #ef4444;
+        }
+        .slide-2 .text {
+            font-size: 56px;
+            font-weight: 700;
+            color: #888;
+            text-decoration: line-through;
+            text-decoration-color: #ef4444;
+        }
+        .slide-2 h2 {
+            font-size: 72px;
+            font-weight: 900;
+            color: #fff;
+            margin-top: 80px;
+        }
+        .slide-2 .emoji {
+            font-size: 150px;
+            margin-bottom: 60px;
+        }
+        
+        /* Slide 3 - Solución */
+        .slide-3 {
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #2d1b4e 100%);
+        }
+        .slide-3::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(124,58,237,0.3) 0%, transparent 70%);
+        }
+        .slide-3 h1 {
+            font-size: 120px;
+            font-weight: 900;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+        .slide-3 .ya {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .slide-3 .tagline {
+            font-size: 48px;
+            color: #a78bfa;
+            margin-top: 40px;
+            font-weight: 500;
+        }
+        .slide-3 .icon {
+            font-size: 200px;
+            margin-bottom: 40px;
+        }
+        
+        /* Slide 4 - Cómo funciona */
+        .slide-4 {
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+        }
+        .slide-4 .step-num {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 50px;
+        }
+        .slide-4 h2 {
+            font-size: 72px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+        .slide-4 .sub {
+            font-size: 44px;
+            color: #94a3b8;
+        }
+        .slide-4 .arrow {
+            font-size: 100px;
+            margin: 40px 0;
+            color: #7c3aed;
+        }
+        
+        /* Slide 5 - Resultado */
+        .slide-5 {
+            background: linear-gradient(135deg, #1a2e1a 0%, #0f3d0f 100%);
+        }
+        .slide-5::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(34,197,94,0.2) 0%, transparent 70%);
+        }
+        .slide-5 .check {
+            font-size: 180px;
+            margin-bottom: 40px;
+        }
+        .slide-5 h2 {
+            font-size: 64px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+        .slide-5 .highlight {
+            color: #ffe600;
+        }
+        .slide-5 .benefits {
+            margin-top: 60px;
+        }
+        .slide-5 .benefit {
+            font-size: 48px;
+            color: #86efac;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        /* Slide 6 - CTA */
+        .slide-6 {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 100%);
+        }
+        .slide-6::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(124,58,237,0.3) 0%, transparent 50%);
+        }
+        .slide-6 h1 {
+            font-size: 100px;
+            font-weight: 900;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+        .slide-6 .ya {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .slide-6 .url {
+            font-size: 56px;
+            color: #a78bfa;
+            margin-top: 40px;
+            font-weight: 600;
+        }
+        .slide-6 .cta {
+            margin-top: 80px;
+            padding: 30px 80px;
+            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+            border-radius: 100px;
+            font-size: 48px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .slide-6 .icon {
+            font-size: 150px;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide 1: Hook -->
+    <div class="slide slide-1" id="slide1">
+        <div class="icon">🛒</div>
+        <h1>¿Querés comprar<br>en <span class="amazon">Amazon</span>?</h1>
+    </div>
+    
+    <!-- Slide 2: Problema -->
+    <div class="slide slide-2" id="slide2">
+        <div class="emoji">😩</div>
+        <div class="problem">
+            <span class="x">✕</span>
+            <span class="text">Sin tarjeta internacional</span>
+        </div>
+        <div class="problem">
+            <span class="x">✕</span>
+            <span class="text">Envío carísimo</span>
+        </div>
+        <div class="problem">
+            <span class="x">✕</span>
+            <span class="text">Impuestos sorpresa</span>
+        </div>
+        <h2>¿Te suena?</h2>
+    </div>
+    
+    <!-- Slide 3: Solución -->
+    <div class="slide slide-3" id="slide3">
+        <div class="icon">✨</div>
+        <h1>Importalo <span class="ya">Ya</span></h1>
+        <div class="tagline">Tu solución llegó</div>
+    </div>
+    
+    <!-- Slide 4: Cómo funciona -->
+    <div class="slide slide-4" id="slide4">
+        <div class="step-num">1</div>
+        <h2>Pegá el link<br>de Amazon</h2>
+        <div class="arrow">↓</div>
+        <h2>Elegí tu país</h2>
+        <div class="arrow">↓</div>
+        <h2>¡Listo!</h2>
+    </div>
+    
+    <!-- Slide 5: Resultado -->
+    <div class="slide slide-5" id="slide5">
+        <div class="check">✓</div>
+        <h2>Compralo en<br><span class="highlight">MercadoLibre</span></h2>
+        <div class="benefits">
+            <div class="benefit">💳 Pagá en pesos</div>
+            <div class="benefit">🚚 Envío gratis</div>
+            <div class="benefit">🛡️ Garantía ML</div>
+        </div>
+    </div>
+    
+    <!-- Slide 6: CTA -->
+    <div class="slide slide-6" id="slide6">
+        <div class="icon">🚀</div>
+        <h1>Importalo <span class="ya">Ya</span></h1>
+        <div class="url">importalo-ya.com</div>
+        <div class="cta">LINK EN BIO</div>
+    </div>
+</body>
+</html>
