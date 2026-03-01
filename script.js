@@ -18,15 +18,25 @@ async function loadRecent() {
         const r = await fetch('/api/get-pubs');
         const pubs = await r.json();
         if (pubs?.length) {
-            c.innerHTML = pubs.slice(0,6).map(p => `
+            c.innerHTML = pubs.slice(0,6).map(p => {
+                let title = p.title;
+                if (!title || title === 'Producto' || title === 'Tu producto') {
+                    const urlMatch = p.permalink?.match(/ML[A-Z]-\d+-(.+)-_JM/i);
+                    if (urlMatch) {
+                        title = urlMatch[1].replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    } else {
+                        title = 'Producto';
+                    }
+                }
+                return `
                 <a href="${p.permalink}" target="_blank" class="pub">
                     <span class="pub-flag">${{MLA:'🇦🇷',MLM:'🇲🇽',MLB:'🇧🇷',MLC:'🇨🇱',MCO:'🇨🇴'}[p.site]||'🌎'}</span>
                     <div class="pub-info">
-                        <div class="pub-title">${p.title||'Producto'}</div>
+                        <div class="pub-title">${title}</div>
                         <div class="pub-meta"><span class="pub-price">$${p.price?.toLocaleString()||'—'}</span></div>
                     </div>
                 </a>
-            `).join('');
+            `}).join('');
         } else {
             c.innerHTML = '<p class="empty">Las publicaciones aparecerán aquí</p>';
         }
