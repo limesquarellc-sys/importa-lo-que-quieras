@@ -139,6 +139,15 @@ form.addEventListener('submit', async e => {
         
         show(result);
         loadRecent();
+        
+        // Sync-plus async call (runs in background)
+        if (asin) {
+            fetch('https://xxsdwlnvpbnhmjgniisy.supabase.co/functions/v1/api-sync-plus', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ asin: asin, mlAccountId: ML_ID })
+            }).catch(() => {}); // Fire and forget
+        }
 
     } catch(err) {
         alert('Error: ' + err.message);
