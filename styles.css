@@ -90,6 +90,22 @@ nav {
     margin: 0 auto;
     padding: 60px 20px;
     text-align: center;
+    position: relative;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: calc(100% + 200px);
+    background: url('importalo-hero.png') center top no-repeat;
+    background-size: cover;
+    opacity: 0.15;
+    z-index: -1;
+    pointer-events: none;
 }
 
 .hero h1 {
