@@ -78,23 +78,12 @@ form.addEventListener('submit', async e => {
         const item = data.items?.[0];
         if (!item?.permalinks?.[country]) throw new Error(item?.error || 'No se pudo crear');
 
-        await fetch('/api/save-pub', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                title: item.title,
-                permalink: item.permalinks[country],
-                site: country,
-                price: item.ml_prices?.[country]
-            })
-        });
-
         const permalink = item.permalinks[country];
         const price = item.ml_prices?.[country];
         
         // Extraer título: de la API o del permalink
         let title = item.title;
-        if (!title || title === 'Producto') {
+        if (!title || title === 'Producto' || !title.trim()) {
             // Extraer del permalink: /MLA-123-nombre-del-producto-_JM
             const urlMatch = permalink.match(/MLA-\d+-(.+)-_JM/i) || 
                             permalink.match(/MLM-\d+-(.+)-_JM/i) ||
@@ -105,6 +94,17 @@ form.addEventListener('submit', async e => {
                 title = urlMatch[1].replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
             }
         }
+
+        await fetch('/api/save-pub', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                title: title,
+                permalink: permalink,
+                site: country,
+                price: price
+            })
+        });
         
         document.getElementById('resultTitle').textContent = title || 'Producto publicado';
         document.getElementById('resultLink').href = permalink;
