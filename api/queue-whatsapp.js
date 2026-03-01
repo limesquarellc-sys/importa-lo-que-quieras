@@ -1,4 +1,7 @@
-import { put, list } from '@vercel/blob';
+import { put } from '@vercel/blob';
+
+const WEBHOOK_URL = 'https://hamilton-meetings-arabic-relatively.trycloudflare.com';
+const WEBHOOK_SECRET = 'importalo-ya-webhook-2026';
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,6 +26,30 @@ export default async function handler(req, res) {
         // Limpiar número
         const cleanPhone = phone.replace(/[^0-9]/g, '');
         
+        // Enviar webhook inmediatamente
+        try {
+            const webhookRes = await fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${WEBHOOK_SECRET}`
+                },
+                body: JSON.stringify({
+                    phone: cleanPhone,
+                    link,
+                    title: title || 'Tu producto',
+                    price
+                })
+            });
+            
+            if (webhookRes.ok) {
+                return res.status(200).json({ success: true, sent: true });
+            }
+        } catch (webhookError) {
+            console.error('Webhook error:', webhookError);
+        }
+
+        // Si el webhook falla, guardar en cola como backup
         const notification = {
             phone: cleanPhone,
             link,
@@ -33,7 +60,6 @@ export default async function handler(req, res) {
             sent: false
         };
 
-        // Guardar en blob
         const filename = `whatsapp-queue/${Date.now()}-${cleanPhone}.json`;
         await put(filename, JSON.stringify(notification), {
             contentType: 'application/json',
