@@ -93,9 +93,10 @@ form.addEventListener('submit', async e => {
         const price = item.ml_prices?.[country];
         const title = item.title;
         
+        document.getElementById('resultTitle').textContent = title || 'Producto publicado';
         document.getElementById('resultLink').href = permalink;
         document.getElementById('resultLink').textContent = permalink;
-        document.getElementById('resultPrice').textContent = price ? `Precio: $${price.toLocaleString()}` : '';
+        document.getElementById('resultPrice').textContent = price ? `$${price.toLocaleString()}` : '';
         
         // Enviar WhatsApp si hay número
         const whatsapp = document.getElementById('whatsappInput').value.trim();
