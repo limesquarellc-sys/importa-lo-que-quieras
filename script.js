@@ -18,7 +18,7 @@ async function loadRecent() {
         const r = await fetch('/api/get-pubs');
         const pubs = await r.json();
         if (pubs?.length) {
-            c.innerHTML = pubs.slice(0,15).map(p => {
+            c.innerHTML = pubs.slice(0,9).map(p => {
                 let title = p.title;
                 if (!title || title === 'Producto' || title === 'Tu producto') {
                     const urlMatch = p.permalink?.match(/ML[A-Z]-\d+-(.+)-_JM/i);
