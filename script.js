@@ -33,7 +33,7 @@ async function loadRecent() {
                     <span class="pub-flag">${{MLA:'🇦🇷',MLM:'🇲🇽',MLB:'🇧🇷',MLC:'🇨🇱',MCO:'🇨🇴'}[p.site]||'🌎'}</span>
                     <div class="pub-info">
                         <div class="pub-title">${title}</div>
-                        
+                        <div class="pub-date">${p.timestamp ? new Date(p.timestamp).toLocaleDateString('es-AR', {day: 'numeric', month: 'short', year: 'numeric'}) : ''}</div>
                     </div>
                 </a>
             `}).join('');
