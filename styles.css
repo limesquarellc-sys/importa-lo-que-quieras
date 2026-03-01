@@ -337,15 +337,30 @@ button:disabled { opacity: 0.5; cursor: not-allowed; top: 0 !important; }
     margin-bottom: 20px;
 }
 
-.result-btn {
-    display: block;
-    padding: 14px;
-    background: var(--accent);
-    color: #fff;
-    text-decoration: none;
+.result-link-box {
+    background: #111;
+    border: 1px solid #333;
     border-radius: 10px;
-    font-weight: 600;
-    margin-bottom: 12px;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.link-label {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+.result-link {
+    color: #3b82f6;
+    word-break: break-all;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.result-link:hover {
+    text-decoration: underline;
 }
 
 .result-price {

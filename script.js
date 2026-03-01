@@ -94,6 +94,7 @@ form.addEventListener('submit', async e => {
         const title = item.title;
         
         document.getElementById('resultLink').href = permalink;
+        document.getElementById('resultLink').textContent = permalink;
         document.getElementById('resultPrice').textContent = price ? `Precio: $${price.toLocaleString()}` : '';
         
         // Enviar WhatsApp si hay número
