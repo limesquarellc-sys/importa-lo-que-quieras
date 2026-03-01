@@ -166,7 +166,7 @@ select {
 button[type="submit"] {
     width: 100%;
     padding: 18px 28px;
-    background: linear-gradient(180deg, #2980b9 0%, #2471a3 50%, #1a5276 100%);
+    background: linear-gradient(145deg, #4f46e5 0%, #7c3aed 100%);
     border: none;
     border-radius: 12px;
     color: #fff;
@@ -175,8 +175,8 @@ button[type="submit"] {
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 
-        0 4px 0 #11334d,
-        0 6px 20px rgba(26, 82, 118, 0.5);
+        0 4px 0 #3730a3,
+        0 6px 20px rgba(124, 58, 237, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -190,8 +190,8 @@ button[type="submit"] {
 button[type="submit"]:hover { 
     top: 2px;
     box-shadow: 
-        0 2px 0 #11334d,
-        0 4px 12px rgba(26, 82, 118, 0.4);
+        0 2px 0 #3730a3,
+        0 4px 12px rgba(124, 58, 237, 0.35);
 }
 
 
@@ -199,8 +199,8 @@ button[type="submit"]:hover {
 button[type="submit"]:active {
     top: 4px;
     box-shadow: 
-        0 0px 0 #11334d,
-        0 2px 8px rgba(26, 82, 118, 0.3);
+        0 0px 0 #3730a3,
+        0 2px 8px rgba(124, 58, 237, 0.25);
 }
 
 button:disabled { opacity: 0.5; cursor: not-allowed; top: 0 !important; }
