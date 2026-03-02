@@ -1,5 +1,5 @@
 const SUPABASE_URL = 'https://odykvbnkxtgxbeiaqcxz.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9keWt2Ym5reHRneGJlaWFxY3h6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NjkxNjEsImV4cCI6MjA4MDQ1MTYxfQ.eZKmBG0C-Yu2cjLG2iktFDP8e-obD7aRJ6w5wvxJsGY';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9keWt2Ym5reHRneGJlaWFxY3h6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NjkxNjEsImV4cCI6MjA4ODA0NTE2MX0.eZKmBG0C-Yu2cjLG2iktFDP8e-obD7aRJ6w5wvxJsGY';
 
 module.exports = async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
