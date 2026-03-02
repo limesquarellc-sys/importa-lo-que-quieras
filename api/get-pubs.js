@@ -1,20 +1,23 @@
-const { list } = require('@vercel/blob');
+const SUPABASE_URL = 'https://odykvbnkxtgxbeiaqcxz.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9keWt2Ym5reHRneGJlaWFxY3h6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NjkxNjEsImV4cCI6MjA4MDQ1MTYxfQ.eZKmBG0C-Yu2cjLG2iktFDP8e-obD7aRJ6w5wvxJsGY';
 
 module.exports = async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Content-Type', 'application/json');
     
     try {
-        const { blobs } = await list({ prefix: 'publications.json' });
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/publications?select=*&order=timestamp.desc&limit=15`,
+            {
+                headers: {
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                }
+            }
+        );
         
-        if (blobs.length === 0) {
-            return res.status(200).json([]);
-        }
-        
-        const response = await fetch(blobs[0].downloadUrl);
         const pubs = await response.json();
-        
-        return res.status(200).json(pubs);
+        return res.status(200).json(pubs || []);
     } catch (error) {
         console.error('Error:', error);
         return res.status(200).json([]);
